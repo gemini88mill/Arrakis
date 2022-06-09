@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Qs0jXSYO3vegJVmHzeYI/k8RQ1UoaytxtsjuK1snUWjSc0pwHUdybMBPq1W9ipEfJpZdWs838S0vODZ86DAlCA==",
+  "dgSpecHash": "hUfALqYJy4GS0SITPMFcM7iKTk+zVkP+tg5l5P67sKh/ifQX5iPoKst+UwjRoLqwkTgAbbuyhb6uDq15oV6PcA==",
   "success": true,
   "projectFilePath": "C:\\DevOps\\Personal\\ProfiseeDevUtils\\ProfiseeDevUtils.csproj",
   "expectedPackageFiles": [
@@ -25,7 +25,7 @@
     "C:\\Users\\araphaelmi\\.nuget\\packages\\nuget.protocol\\6.1.0\\nuget.protocol.6.1.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\nuget.resolver\\6.1.0\\nuget.resolver.6.1.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\nuget.versioning\\6.1.0\\nuget.versioning.6.1.0.nupkg.sha512",
-    "C:\\Users\\araphaelmi\\.nuget\\packages\\spectre.console\\0.44.1-preview.0.17\\spectre.console.0.44.1-preview.0.17.nupkg.sha512",
+    "C:\\Users\\araphaelmi\\.nuget\\packages\\spectre.console\\0.44.0\\spectre.console.0.44.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\system.commandline\\2.0.0-beta4.22272.1\\system.commandline.2.0.0-beta4.22272.1.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\system.commandline.namingconventionbinder\\2.0.0-beta4.22272.1\\system.commandline.namingconventionbinder.2.0.0-beta4.22272.1.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512",

@@ -19,28 +19,33 @@ namespace ProfiseeDevUtils.Build
         public bool Delay { get; set; }
         public string MsBuildConfiguration { get; set; }
 
+        public string rootPath { get; set; }
+
         public BuildContext(ICakeContext context)
             : base(context)
         {
-            MsBuildConfiguration = context.Argument("configuration", "Release");
+            MsBuildConfiguration = context.Argument("configuration", "Debug");
+            rootPath = context.Argument("path", @"C:\DevOps\Repos\rest-api\");
         }
 
-        [TaskName("Clean")]
-        public sealed class CleanTask : FrostingTask<BuildContext>
-        {
-            public override void Run(BuildContext context)
-            {
-                context.CleanDirectory($"../src/Example/bin/{context.MsBuildConfiguration}");
-            }
-        }
+        //[TaskName("Clean")]
+        //public sealed class CleanTask : FrostingTask<BuildContext>
+        //{
+        //    public override void Run(BuildContext context)
+        //    {
+        //        var bins = new Utils().GetFoldersByName(context.rootPath, "bin");
+
+        //        context.CleanDirectory(Path.Combine(context.rootPath, context.MsBuildConfiguration));
+        //    }
+        //}
 
         [TaskName("Build")]
-        [IsDependentOn(typeof(CleanTask))]
+        //[IsDependentOn(typeof(CleanTask))]
         public sealed class BuildTask : FrostingTask<BuildContext>
         {
             public override void Run(BuildContext context)
             {
-                context.DotNetBuild("../src/Example.sln", new DotNetBuildSettings
+                context.DotNetBuild(context.rootPath + @"\Gateway.Api.sln", new DotNetBuildSettings
                 {
                     Configuration = context.MsBuildConfiguration,
                 });
@@ -53,7 +58,7 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                context.DotNetTest("../src/Example.sln", new DotNetTestSettings
+                context.DotNetTest(context.rootPath + @"\Gateway.Api.sln", new DotNetTestSettings
                 {
                     Configuration = context.MsBuildConfiguration,
                     NoBuild = true,
@@ -65,6 +70,22 @@ namespace ProfiseeDevUtils.Build
         [IsDependentOn(typeof(TestTask))]
         public class DefaultTask : FrostingTask
         {
+        }
+
+        public class BuildLifetime : FrostingLifetime<BuildContext>
+        {
+            public override void Setup(BuildContext context)
+            {
+                //new Utils().TurnOffService("W3SVC");
+                //new Utils().TurnOnService("W3SVC");
+                new Utils().TurnOffService("Profisee 22.2.0 (Profisee)");
+            }
+
+            public override void Teardown(BuildContext context, ITeardownContext info)
+            {
+                new Utils().TurnOnService("Profisee 22.2.0 (Profisee)");
+
+            }
         }
     }
 }

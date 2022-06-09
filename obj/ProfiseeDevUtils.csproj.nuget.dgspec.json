@@ -45,10 +45,6 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
-            "Spectre.Console": {
-              "target": "Package",
-              "version": "[0.44.1-preview.0.17, )"
-            },
             "System.CommandLine": {
               "target": "Package",
               "version": "[2.0.0-beta4.22272.1, )"

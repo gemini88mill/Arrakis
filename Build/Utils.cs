@@ -24,12 +24,14 @@ namespace ProfiseeDevUtils.Build
             service.WaitForStatus(ServiceControllerStatus.Stopped);
         }
 
-        public string[] GetListOfAvailableProjects(string root, string type)
+        public string[] GetFilesByType(string root, string type)
         {
-            if(type == "csproj")
-                return Directory.GetFiles(root, "*.csproj", SearchOption.AllDirectories);
-            else
-                return Directory.GetFiles(root, "*.sln", SearchOption.AllDirectories);
+            return Directory.GetFiles(root, $"*.{type}", SearchOption.AllDirectories);
+        }
+
+        public string[] GetFoldersByName(string root, string dirName)
+        {
+            return Directory.GetDirectories(root, dirName, SearchOption.AllDirectories);
         }
 
 

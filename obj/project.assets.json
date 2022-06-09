@@ -268,7 +268,7 @@
           "lib/netstandard2.0/NuGet.Versioning.dll": {}
         }
       },
-      "Spectre.Console/0.44.1-preview.0.17": {
+      "Spectre.Console/0.44.0": {
         "type": "package",
         "compile": {
           "lib/net6.0/Spectre.Console.dll": {}
@@ -1018,10 +1018,10 @@
         "nuget.versioning.nuspec"
       ]
     },
-    "Spectre.Console/0.44.1-preview.0.17": {
-      "sha512": "VZseg2MepxXzCj7A0btKkn/YKWJDecJ/c6D61pJ9Q1ejzQVtfmxt9JAesIoP0WY8NjanmiDxucHj5YawYq1sdw==",
+    "Spectre.Console/0.44.0": {
+      "sha512": "QMpKtn5QV1j2nklqDwuRE/XwbDn5jxww+Mt5J6Jn3EeQIzaLcuLyUhCLh/mS8giN6uXbqOV1ep5HlUGxrV1ujQ==",
       "type": "package",
-      "path": "spectre.console/0.44.1-preview.0.17",
+      "path": "spectre.console/0.44.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1032,7 +1032,7 @@
         "lib/netstandard2.0/Spectre.Console.dll",
         "lib/netstandard2.0/Spectre.Console.xml",
         "small-logo.png",
-        "spectre.console.0.44.1-preview.0.17.nupkg.sha512",
+        "spectre.console.0.44.0.nupkg.sha512",
         "spectre.console.nuspec"
       ]
     },
@@ -1508,7 +1508,6 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Cake.Frosting >= 2.2.0",
-      "Spectre.Console >= 0.44.1-preview.0.17",
       "System.CommandLine >= 2.0.0-beta4.22272.1",
       "System.CommandLine.NamingConventionBinder >= 2.0.0-beta4.22272.1",
       "System.ServiceProcess.ServiceController >= 6.0.0"
@@ -1557,10 +1556,6 @@
           "Cake.Frosting": {
             "target": "Package",
             "version": "[2.2.0, )"
-          },
-          "Spectre.Console": {
-            "target": "Package",
-            "version": "[0.44.1-preview.0.17, )"
           },
           "System.CommandLine": {
             "target": "Package",
