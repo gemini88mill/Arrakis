@@ -96,6 +96,11 @@
             this.envVars["PathToUtilitiesExe"] = @$"{this.envVars["UtilPath"]}\Profisee.MasterDataMaestro.Utilities.exe";
         }
 
+        public string? GetEnvVar(string variable)
+        {
+            return Environment.GetEnvironmentVariable(variable);
+        }
+
         protected void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget envVarTarget)
         {
             Environment.SetEnvironmentVariable(variable, value, envVarTarget);
