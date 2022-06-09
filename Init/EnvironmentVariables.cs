@@ -1,13 +1,15 @@
-﻿namespace ProfiseeDevUtils.Init
+﻿using Newtonsoft.Json;
+
+namespace ProfiseeDevUtils.Init
 {
-    internal class EnvironmentVariables
+    public class EnvironmentVariables
     {
+        private string TfsBaseDirPath = @"\DevOps";
         private Dictionary<string, string> envVars = new Dictionary<string, string>
         {
             // locals to populate full values
             { "MaestroVersion", "22.2.0" },
             { "TfsDrive", "C:"},
-            { "TfsBaseDirPath", @"\DevOps"},
             { "MaestroWebAppName", "Profisee"},
             { "MaestroDb", "Profisee"},
             { "TfsGetSource", "$/Products/"},
@@ -52,7 +54,8 @@
         /// </summary>
         public void Set()
         {
-            var customVars = this.ParseCustomVars(@".\local\customVars.json");
+            string projectSourcePath = ProjectSourcePath.Value;
+            var customVars = this.ParseCustomVars(@$"{projectSourcePath}\local\customVars.json");
 
             foreach(var customVar in customVars)
             {
@@ -73,19 +76,26 @@
 
         public Dictionary<string, string> ParseCustomVars(string file)
         {
-            return new Dictionary<string, string>();
+            Dictionary<string, string>? vars;
+            using (StreamReader r = new StreamReader(file))
+            {
+                string json = r.ReadToEnd();
+                vars = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            }
+
+            return vars ?? new Dictionary<string, string>();
         }
 
         public void AddDerivedEnvVars()
         {
-            this.envVars["TfsBaseDir"] = $"{this.envVars["TfsDrive"]}{this.envVars["TfsBaseDirPath"]}";
-            this.envVars["gitRepos"] = @$"{this.envVars["TfsBaseDir"]}\Repos";
+            var TfsBaseDir = $"{this.envVars["TfsDrive"]}{this.TfsBaseDirPath}";
+            this.envVars["gitRepos"] = @$"{TfsBaseDir}\Repos";
             this.envVars["TfsSrc"] = @$"{this.envVars["gitRepos"]}\platform";
             this.envVars["ScriptsFolder"] = @$"{this.envVars["TfsSrc"]}\Scripts";
             this.envVars["BatchFileLocation"] = @$"{this.envVars["ScriptsFolder"]}\script_files";
             this.envVars["LicenseFile"] = @$"{this.envVars["BatchFileLocation"]}\Prof_2020r1_1Inst_3Nodes_OnlyProfiseeConnector_Production_@.corp.profisee.com.plic";
-            this.envVars["ScriptsDrive"] = this.envVars["TfsDrive"];
-            this.envVars["TfsProto"] = @$"{this.envVars["TfsBaseDir"]}\Prototypes";
+            //this.envVars["ScriptsDrive"] = this.envVars["TfsDrive"];
+            this.envVars["TfsProto"] = @$"{TfsBaseDir}\Prototypes";
             this.envVars["TfsSdk"] = @$"{this.envVars["gitRepos"]}\sdk";
             this.envVars["AutomationFolder"] = @$"{this.envVars["TfsSrc"]}\Testing\Automation";
             this.envVars["UtilPath"] = @$"{this.envVars["TfsSrc"]}\Common\Utilities\bin\Debug";
@@ -96,12 +106,12 @@
             this.envVars["PathToUtilitiesExe"] = @$"{this.envVars["UtilPath"]}\Profisee.MasterDataMaestro.Utilities.exe";
         }
 
-        public string? GetEnvVar(string variable)
+        public virtual string? GetEnvVar(string variable)
         {
             return Environment.GetEnvironmentVariable(variable);
         }
 
-        protected void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget envVarTarget)
+        public virtual void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget envVarTarget)
         {
             Environment.SetEnvironmentVariable(variable, value, envVarTarget);
         }
