@@ -25,7 +25,11 @@ var getBins = Directory.GetDirectories(@"C:\DevOps\Repos\platform", "bin", Searc
 var profCommands = new ProfiseeCommands();
 var cmd = new RootCommand 
 {
-    profCommands.build
+    profCommands.build,
+    profCommands.config,
+    profCommands.envVars,
+    profCommands.init,
+    profCommands.git
 };
 
 return cmd.Invoke(args);
