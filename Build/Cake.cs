@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cake.Common.Diagnostics;
 
 namespace ProfiseeDevUtils.Build
 {
@@ -25,22 +26,20 @@ namespace ProfiseeDevUtils.Build
             : base(context)
         {
             MsBuildConfiguration = context.Argument("configuration", "Debug");
-            rootPath = context.Argument("path", @"C:\DevOps\Repos\rest-api\");
+            rootPath = context.Argument("path", @"C:\DevOps\Repos\rest-api");
         }
 
-        //[TaskName("Clean")]
-        //public sealed class CleanTask : FrostingTask<BuildContext>
-        //{
-        //    public override void Run(BuildContext context)
-        //    {
-        //        var bins = new Utils().GetFoldersByName(context.rootPath, "bin");
-
-        //        context.CleanDirectory(Path.Combine(context.rootPath, context.MsBuildConfiguration));
-        //    }
-        //}
+        [TaskName("Clean")]
+        public sealed class CleanTask : FrostingTask<BuildContext>
+        {
+            public override void Run(BuildContext context)
+            {
+                context.CleanDirectory(context.rootPath + @"\**\bin");
+            }
+        }
 
         [TaskName("Build")]
-        //[IsDependentOn(typeof(CleanTask))]
+        [IsDependentOn(typeof(CleanTask))]
         public sealed class BuildTask : FrostingTask<BuildContext>
         {
             public override void Run(BuildContext context)
@@ -76,6 +75,7 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Setup(BuildContext context)
             {
+                context.VerboseVerbosity();
                 //new Utils().TurnOffService("W3SVC");
                 //new Utils().TurnOnService("W3SVC");
                 new Utils().TurnOffService("Profisee 22.2.0 (Profisee)");

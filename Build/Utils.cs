@@ -13,6 +13,11 @@ namespace ProfiseeDevUtils.Build
         public void TurnOnService(string name)
         {
             ServiceController service = new ServiceController(name);
+            if(service.Status == ServiceControllerStatus.Running)
+            {
+                Console.WriteLine("Service is already started");
+                return;
+            }
             service.Start();
             service.WaitForStatus(ServiceControllerStatus.Running);
         }
@@ -20,6 +25,11 @@ namespace ProfiseeDevUtils.Build
         public void TurnOffService(string name)
         {
             ServiceController service = new ServiceController(name);
+            if (service.Status == ServiceControllerStatus.Stopped)
+            {
+                Console.WriteLine("Service is already started");
+                return;
+            }
             service.Stop();
             service.WaitForStatus(ServiceControllerStatus.Stopped);
         }
@@ -33,7 +43,6 @@ namespace ProfiseeDevUtils.Build
         {
             return Directory.GetDirectories(root, dirName, SearchOption.AllDirectories);
         }
-
 
     }
 }

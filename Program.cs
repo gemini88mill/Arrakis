@@ -17,21 +17,24 @@ var getBins = Directory.GetDirectories(@"C:\DevOps\Repos\platform", "bin", Searc
 //    Console.WriteLine(item);
 //}
 
-//return new CakeHost()
-//            .UseContext<BuildContext>()
-//            .UseLifetime<BuildLifetime>()
-//            .Run(args);
+//run cake
+return new CakeHost()
+            .UseContext<BuildContext>()
+            .UseLifetime<BuildLifetime>()
+            .Run(args);
 
-var profCommands = new ProfiseeCommands();
-var cmd = new RootCommand 
-{
-    profCommands.build,
-    profCommands.config,
-    profCommands.envVars,
-    profCommands.init,
-    profCommands.git
-};
 
-return cmd.Invoke(args);
+//This is for the build lib
+//var profCommands = new ProfiseeCommands();
+//var cmd = new RootCommand 
+//{
+//    profCommands.build,
+//    profCommands.config,
+//    profCommands.envVars,
+//    profCommands.init,
+//    profCommands.git
+//};
+
+//return cmd.Invoke(args);
 
 
