@@ -45,6 +45,10 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
+            "Cake.Git": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
             "System.CommandLine": {
               "target": "Package",
               "version": "[2.0.0-beta4.22272.1, )"

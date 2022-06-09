@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProfiseeDevUtils.Build;
+using Spectre.Console;
+using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
@@ -76,7 +78,12 @@ namespace ProfiseeDevUtils.Commands
 
         private void HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
-            console.WriteLine("This command is not implemented yet");
+            var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".git", SearchOption.AllDirectories);
+            var repos = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Select Repo to build")
+                    .AddChoices(getgits)
+                );
         }
     }
 }

@@ -9,32 +9,34 @@ Console.WriteLine("Hello, World!");
 
 Utils utils = new Utils();
 
-var getUtils = utils.GetFilesByType(@"C:\DevOps\Repos", "sln");
-var getBins = Directory.GetDirectories(@"C:\DevOps\Repos\platform", "bin", SearchOption.AllDirectories);
+//var getProj = utils.GetFilesByType(@"C:\DevOps\Repos", "csproj");
+//var getSln = utils.GetFilesByType(@"C:\DevOps\Repos", "sln");
+//var getBins = Directory.GetDirectories(@"C:\DevOps\Repos\platform", "bin", SearchOption.AllDirectories);
+//var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".git", SearchOption.AllDirectories);
 
-//foreach(var item in getUtils)
+//foreach (var item in getSln.Concat(getProj))
 //{
 //    Console.WriteLine(item);
 //}
 
 //run cake
-return new CakeHost()
-            .UseContext<BuildContext>()
-            .UseLifetime<BuildLifetime>()
-            .Run(args);
+//return new CakeHost()
+//            .UseContext<BuildContext>()
+//            .UseLifetime<BuildLifetime>()
+//            .Run(args);
 
 
 //This is for the build lib
-//var profCommands = new ProfiseeCommands();
-//var cmd = new RootCommand 
-//{
-//    profCommands.build,
-//    profCommands.config,
-//    profCommands.envVars,
-//    profCommands.init,
-//    profCommands.git
-//};
+var profCommands = new ProfiseeCommands();
+var cmd = new RootCommand
+{
+    profCommands.build,
+    profCommands.config,
+    profCommands.envVars,
+    profCommands.init,
+    profCommands.git
+};
 
-//return cmd.Invoke(args);
+return cmd.Invoke(args);
 
 

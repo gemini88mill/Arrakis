@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hUfALqYJy4GS0SITPMFcM7iKTk+zVkP+tg5l5P67sKh/ifQX5iPoKst+UwjRoLqwkTgAbbuyhb6uDq15oV6PcA==",
+  "dgSpecHash": "ZTtffp/yohKS1nC1APXrI7oJu2G7dbh/o5dNkThw2/ReMpQk4bnDzQuDQ/33S0un6YlEeECnbGghZObj0/Y9zg==",
   "success": true,
   "projectFilePath": "C:\\DevOps\\Personal\\ProfiseeDevUtils\\ProfiseeDevUtils.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\araphaelmi\\.nuget\\packages\\cake.core\\2.2.0\\cake.core.2.2.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\cake.dotnettool.module\\2.2.0\\cake.dotnettool.module.2.2.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\cake.frosting\\2.2.0\\cake.frosting.2.2.0.nupkg.sha512",
+    "C:\\Users\\araphaelmi\\.nuget\\packages\\cake.git\\2.0.0\\cake.git.2.0.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\cake.nuget\\2.2.0\\cake.nuget.2.2.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\araphaelmi\\.nuget\\packages\\microsoft.dotnet.platformabstractions\\3.1.6\\microsoft.dotnet.platformabstractions.3.1.6.nupkg.sha512",

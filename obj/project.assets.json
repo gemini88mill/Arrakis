@@ -82,6 +82,57 @@
           "lib/net6.0/Cake.Frosting.dll": {}
         }
       },
+      "Cake.Git/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Cake.Git.dll": {},
+          "lib/net6.0/LibGit2Sharp.dll": {},
+          "lib/net6.0/git2-6777db8.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Cake.Git.dll": {},
+          "lib/net6.0/LibGit2Sharp.dll": {},
+          "lib/net6.0/git2-6777db8.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-arm/native/libgit2-6777db8.so": {
+            "assetType": "native",
+            "rid": "linux-arm"
+          },
+          "runtimes/linux-arm64/native/libgit2-6777db8.so": {
+            "assetType": "native",
+            "rid": "linux-arm64"
+          },
+          "runtimes/linux-musl-x64/native/libgit2-6777db8.so": {
+            "assetType": "native",
+            "rid": "linux-musl-x64"
+          },
+          "runtimes/linux-x64/native/libgit2-6777db8.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx/native/libgit2-6777db8.dylib": {
+            "assetType": "native",
+            "rid": "osx"
+          },
+          "runtimes/win-x64/native/git2-6777db8.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/git2-6777db8.pdb": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/git2-6777db8.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/git2-6777db8.pdb": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
       "Cake.NuGet/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -639,6 +690,48 @@
         "lib/netcoreapp3.1/Cake.Frosting.dll",
         "lib/netcoreapp3.1/Cake.Frosting.pdb",
         "lib/netcoreapp3.1/Cake.Frosting.xml"
+      ]
+    },
+    "Cake.Git/2.0.0": {
+      "sha512": "YCccgOIrjeklPkbBFfbm0g5xHYHM2RtplfXOi2y3e7Qbnd569zWlwcNGlAu4jHYukN15qH540hRZMRy1+lymGg==",
+      "type": "package",
+      "path": "cake.git/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cake.git.2.0.0.nupkg.sha512",
+        "cake.git.nuspec",
+        "images/icon.png",
+        "lib/net5.0/Cake.Git.dll",
+        "lib/net5.0/Cake.Git.xml",
+        "lib/net5.0/LibGit2Sharp.dll",
+        "lib/net5.0/git2-6777db8.dll",
+        "lib/net5.0/git2-6777db8.pdb",
+        "lib/net5.0/libgit2-6777db8.dylib",
+        "lib/net5.0/libgit2-6777db8.so",
+        "lib/net6.0/Cake.Git.dll",
+        "lib/net6.0/Cake.Git.xml",
+        "lib/net6.0/LibGit2Sharp.dll",
+        "lib/net6.0/git2-6777db8.dll",
+        "lib/net6.0/git2-6777db8.pdb",
+        "lib/net6.0/libgit2-6777db8.dylib",
+        "lib/net6.0/libgit2-6777db8.so",
+        "lib/netcoreapp3.1/Cake.Git.dll",
+        "lib/netcoreapp3.1/Cake.Git.xml",
+        "lib/netcoreapp3.1/LibGit2Sharp.dll",
+        "lib/netcoreapp3.1/git2-6777db8.dll",
+        "lib/netcoreapp3.1/git2-6777db8.pdb",
+        "lib/netcoreapp3.1/libgit2-6777db8.dylib",
+        "lib/netcoreapp3.1/libgit2-6777db8.so",
+        "runtimes/linux-arm/native/libgit2-6777db8.so",
+        "runtimes/linux-arm64/native/libgit2-6777db8.so",
+        "runtimes/linux-musl-x64/native/libgit2-6777db8.so",
+        "runtimes/linux-x64/native/libgit2-6777db8.so",
+        "runtimes/osx/native/libgit2-6777db8.dylib",
+        "runtimes/win-x64/native/git2-6777db8.dll",
+        "runtimes/win-x64/native/git2-6777db8.pdb",
+        "runtimes/win-x86/native/git2-6777db8.dll",
+        "runtimes/win-x86/native/git2-6777db8.pdb"
       ]
     },
     "Cake.NuGet/2.2.0": {
@@ -1508,6 +1601,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Cake.Frosting >= 2.2.0",
+      "Cake.Git >= 2.0.0",
       "System.CommandLine >= 2.0.0-beta4.22272.1",
       "System.CommandLine.NamingConventionBinder >= 2.0.0-beta4.22272.1",
       "System.ServiceProcess.ServiceController >= 6.0.0"
@@ -1556,6 +1650,10 @@
           "Cake.Frosting": {
             "target": "Package",
             "version": "[2.2.0, )"
+          },
+          "Cake.Git": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "System.CommandLine": {
             "target": "Package",

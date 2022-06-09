@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cake.Common.Diagnostics;
+using Cake.Git;
 
 namespace ProfiseeDevUtils.Build
 {
@@ -34,7 +35,8 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                context.CleanDirectory(context.rootPath + @"\**\bin");
+                //watch out of bin on mode modules...
+                context.CleanDirectories(context.rootPath + "/**/bin");
             }
         }
 
@@ -44,7 +46,9 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                context.DotNetBuild(context.rootPath + @"\Gateway.Api.sln", new DotNetBuildSettings
+                var slnFullPath = Directory.GetFiles(context.rootPath, ".sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
+
+                context.DotNetBuild(slnFullPath, new DotNetBuildSettings
                 {
                     Configuration = context.MsBuildConfiguration,
                 });
@@ -57,13 +61,30 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                context.DotNetTest(context.rootPath + @"\Gateway.Api.sln", new DotNetTestSettings
+                var slnFullPath = Directory.GetFiles(context.rootPath, ".sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
+
+                context.DotNetTest(slnFullPath, new DotNetTestSettings
                 {
                     Configuration = context.MsBuildConfiguration,
                     NoBuild = true,
                 });
             }
         }
+
+        [TaskName("Git")]
+        public sealed class GitTask : FrostingTask<BuildContext>
+        {
+            public override bool ShouldRun(BuildContext context)
+            {
+                return false;
+            }
+
+            public override void Run(BuildContext context)
+            {
+                context.GitPull(context.rootPath, context.GitConfigGet<string>("user.name", ""), context.GitConfigGet<string>("user.email", ""));
+            }
+        }
+
 
         [TaskName("Default")]
         [IsDependentOn(typeof(TestTask))]
@@ -75,7 +96,7 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Setup(BuildContext context)
             {
-                context.VerboseVerbosity();
+                context.DiagnosticVerbosity();
                 //new Utils().TurnOffService("W3SVC");
                 //new Utils().TurnOnService("W3SVC");
                 new Utils().TurnOffService("Profisee 22.2.0 (Profisee)");
