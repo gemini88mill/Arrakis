@@ -52,7 +52,7 @@ namespace ProfiseeDevUtils.Init
         /// <summary>
         /// Sets the environment variables
         /// </summary>
-        public void Set()
+        public void SetAll()
         {
             string projectSourcePath = ProjectSourcePath.Value;
             var customVars = this.ParseCustomVars(@$"{projectSourcePath}\local\customVars.json");
