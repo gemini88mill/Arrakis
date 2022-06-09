@@ -79,10 +79,17 @@ namespace ProfiseeDevUtils.Commands
         private void HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
             var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".git", SearchOption.AllDirectories);
+
+            var fileNames = new List<string>();
+            foreach(var item in getgits)
+            {
+                fileNames.Add(Path.GetDirectoryName(item));
+            }
+
             var repos = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Select Repo to build")
-                    .AddChoices(getgits)
+                    .AddChoices(fileNames)
                 );
         }
     }
