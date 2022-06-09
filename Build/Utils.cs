@@ -19,12 +19,17 @@ namespace ProfiseeDevUtils.Build
 
         public void TurnOffService(string name)
         {
-
+            ServiceController service = new ServiceController(name);
+            service.Stop();
+            service.WaitForStatus(ServiceControllerStatus.Stopped);
         }
 
-        public void GetListOfAvailableProjects(string root)
+        public string[] GetListOfAvailableProjects(string root, string type)
         {
-
+            if(type == "csproj")
+                return Directory.GetFiles(root, "*.csproj", SearchOption.AllDirectories);
+            else
+                return Directory.GetFiles(root, "*.sln", SearchOption.AllDirectories);
         }
 
 
