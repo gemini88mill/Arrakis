@@ -1,6 +1,4 @@
-using NSubstitute;
 using NUnit.Framework;
-using ProfiseeDevUtils.Init;
 using ProfiseeDevUtilsTest.Mocks;
 using System;
 

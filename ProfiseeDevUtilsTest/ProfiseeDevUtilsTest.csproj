@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Arrakis\ProfiseeDevUtils.csproj" />
+    <ProjectReference Include="..\ProfiseeDevUtils\ProfiseeDevUtils.csproj" />
   </ItemGroup>
 
 </Project>
