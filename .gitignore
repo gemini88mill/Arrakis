@@ -30,6 +30,8 @@ Latest commit 491040e on Jan 26
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+local/
+
 # User-specific files
 *.rsuser
 *.suo
