@@ -11,7 +11,7 @@ namespace ProfiseeDevUtilsTest
         [SetUp]
         public void Setup()
         {
-            environmentVariablesMock = new EnvironmentVariablesMock();
+            environmentVariablesMock = new EnvironmentVariablesMock(false);
         }
 
         [Test]
