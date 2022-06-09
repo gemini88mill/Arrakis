@@ -20,6 +20,7 @@ namespace ProfiseeDevUtils.Build
             }
             service.Start();
             service.WaitForStatus(ServiceControllerStatus.Running);
+            Console.WriteLine("Service has successfully started");
         }
 
         public void TurnOffService(string name)
@@ -27,11 +28,12 @@ namespace ProfiseeDevUtils.Build
             ServiceController service = new ServiceController(name);
             if (service.Status == ServiceControllerStatus.Stopped)
             {
-                Console.WriteLine("Service is already started");
+                Console.WriteLine("Service is already stopped");
                 return;
             }
             service.Stop();
             service.WaitForStatus(ServiceControllerStatus.Stopped);
+            Console.WriteLine("Service has successfully stopped");
         }
 
         public string[] GetFilesByType(string root, string type)
@@ -43,6 +45,10 @@ namespace ProfiseeDevUtils.Build
         {
             return Directory.GetDirectories(root, dirName, SearchOption.AllDirectories);
         }
+
+        public string? GetFolderByFileName(string root, string fileName) => Directory.GetFiles(root, $"{fileName}.*", SearchOption.AllDirectories).FirstOrDefault();
+
+
 
     }
 }
