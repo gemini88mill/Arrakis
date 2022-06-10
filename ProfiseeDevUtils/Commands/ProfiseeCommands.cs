@@ -124,7 +124,7 @@ namespace ProfiseeDevUtils.Commands
 
             if (string.IsNullOrEmpty(name))
             {
-                slns = utils.GetDefaultSlns(root);
+                slns.AddRange(utils.GetDefaultSlns(root));
 
                 repo = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
