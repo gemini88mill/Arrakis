@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProfiseeDevUtils.Infrastructure;
 using Spectre.Console;
-using VarName = ProfiseeDevUtils.Init.EnvironmentVariableNames;
 
 namespace ProfiseeDevUtils.Init
 {
@@ -12,45 +11,45 @@ namespace ProfiseeDevUtils.Init
         private Dictionary<string, string> envVars = new Dictionary<string, string>
         {
             // locals to populate full values
-            { VarName.MaestroVersion, "22.2.0" },
-            { VarName.TfsDrive, "C:"},
-            { VarName.MaestroWebAppName, "Profisee"},
-            { VarName.MaestroDb, "Profisee"},
-            { VarName.TfsGetSource, "$/Products/"},
-            { VarName.SqlDataPath, @"C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA"},
-            { VarName.WebSiteName, "Default Web Site"},
-            { VarName.SqlServer, "."},
-            { VarName.UseWindowsAuthentication, "true"},
-            { VarName.SqlUserName, ""},
-            { VarName.SqlUserPassword, ""},
-            { VarName.MaestroAppPoolName, "Profisee"},
-            { VarName.MaestroAppPoolUserName, @"corp\svc_web"},
-            { VarName.MaestroAppPoolUserPassword, "Profisee1"},
-            { VarName.MaestroServicePort, "8003"},
-            { VarName.MaestroServiceUserName, @"corp\svc_maestro"},
-            { VarName.MaestroServiceUserPassword, "Profisee1"},
-            { VarName.TfsUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"},
-            { VarName.MsBuildUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe"},
-            { VarName.MsTestUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\VSTest.Console.exe"},
-            { VarName.AttachmentRepositoryLocation, @"C:\FileRepository"},
-            { VarName.AttachmentRepositoryUserName, @"corp\svc_web"},
-            { VarName.AttachmentRepositoryUserPassword, "Profisee1"},
-            { VarName.AttachmentRepositoryLogonType, "Interactive"},
-            { VarName.UseHttps, "true"},
-            { VarName.UseSeparateDatabases, "true"},
-            { VarName.SetupTestCategory, "00-ApolloSetup-Small"},
+            { nameof(MaestroVersion), "22.2.0" },
+            { nameof(TfsDrive), "C:"},
+            { nameof(MaestroWebAppName), "Profisee"},
+            { nameof(MaestroDb), "Profisee"},
+            { nameof(TfsGetSource), "$/Products/"},
+            { nameof(SqlDataPath), @"C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA"},
+            { nameof(WebSiteName), "Default Web Site"},
+            { nameof(SqlServer), "."},
+            { nameof(UseWindowsAuthentication), "true"},
+            { nameof(SqlUserName), ""},
+            { nameof(SqlUserPassword), ""},
+            { nameof(MaestroAppPoolName), "Profisee"},
+            { nameof(MaestroAppPoolUserName), @"corp\svc_web"},
+            { nameof(MaestroAppPoolUserPassword), "Profisee1"},
+            { nameof(MaestroServicePort), "8003"},
+            { nameof(MaestroServiceUserName), @"corp\svc_maestro"},
+            { nameof(MaestroServiceUserPassword), "Profisee1"},
+            { nameof(TfsUtil), @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"},
+            { nameof(MsBuildUtil), @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe"},
+            { nameof(MsTestUtil), @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\VSTest.Console.exe"},
+            { nameof(AttachmentRepositoryLocation), @"C:\FileRepository"},
+            { nameof(AttachmentRepositoryUserName), @"corp\svc_web"},
+            { nameof(AttachmentRepositoryUserPassword), "Profisee1"},
+            { nameof(AttachmentRepositoryLogonType), "Interactive"},
+            { nameof(UseHttps), "true"},
+            { nameof(UseSeparateDatabases), "true"},
+            { nameof(SetupTestCategory), "00-ApolloSetup-Small"},
 
             // automation settings
-            { VarName.SqlEventingDatabaseName, "" },
-            { VarName.SqlConnectorSqlServer, ""},
-            { VarName.ServerURL, "net.tcp://127.0.0.1/Profisee"},
-            { VarName.CrmSqlServer, ""},
-            { VarName.CrmEventingDatabaseName, ""},
-            { VarName.CrmDatabaseName, ""},
-            { VarName.PathToFederation, @"C:\Program Files\Profisee\Master Data Maestro Integrator\4.0.1\IntegratorCLU.exe"},
-            { VarName.RunAsUserName, ""},
-            { VarName.ServerRESTVersion, "v1"},
-            { VarName.ServerRESTUrl, "http://127.0.0.1/profisee/rest"},
+            { nameof(SqlEventingDatabaseName), "" },
+            { nameof(SqlConnectorSqlServer), ""},
+            { nameof(ServerURL), "net.tcp://127.0.0.1/Profisee"},
+            { nameof(CrmSqlServer), ""},
+            { nameof(CrmEventingDatabaseName), ""},
+            { nameof(CrmDatabaseName), ""},
+            { nameof(PathToFederation), @"C:\Program Files\Profisee\Master Data Maestro Integrator\4.0.1\IntegratorCLU.exe"},
+            { nameof(RunAsUserName), ""},
+            { nameof(ServerRESTVersion), "v1"},
+            { nameof(ServerRESTUrl), "http://127.0.0.1/profisee/rest"},
         };
 
         public ILogger Logger { get; set; } = new Logger();
@@ -145,22 +144,22 @@ namespace ProfiseeDevUtils.Init
 
         public void AddDerivedEnvVars()
         {
-            var TfsBaseDir = $"{this.envVars[VarName.TfsDrive]}{this.TfsBaseDirPath}";
-            this.envVars[VarName.gitRepos] = @$"{TfsBaseDir}\Repos";
-            this.envVars[VarName.TfsSrc] = @$"{this.envVars[VarName.gitRepos]}\platform";
-            this.envVars[VarName.ScriptsFolder] = @$"{this.envVars[VarName.TfsSrc]}\Scripts";
-            this.envVars[VarName.BatchFileLocation] = @$"{this.envVars[VarName.ScriptsFolder]}\script_files";
-            this.envVars[VarName.LicenseFile] = @$"{this.envVars[VarName.BatchFileLocation]}\Prof_2020r1_1Inst_3Nodes_OnlyProfiseeConnector_Production_@.corp.profisee.com.plic";
-            //this.envVars[VarName.ScriptsDrive] = this.envVars[VarName.TfsDrive];
-            this.envVars[VarName.TfsProto] = @$"{TfsBaseDir}\Prototypes";
-            this.envVars[VarName.TfsSdk] = @$"{this.envVars[VarName.gitRepos]}\sdk";
-            this.envVars[VarName.AutomationFolder] = @$"{this.envVars[VarName.TfsSrc]}\Testing\Automation";
-            this.envVars[VarName.UtilPath] = @$"{this.envVars[VarName.TfsSrc]}\Common\Utilities\bin\Debug";
-            this.envVars[VarName.MaestroSvc] = $"Profisee {this.envVars[VarName.MaestroVersion]} ({this.envVars[VarName.MaestroWebAppName]})";
-            this.envVars[VarName.MaestroSnap] = $"{this.envVars[VarName.MaestroDb]}_Snapshot";
-            this.envVars[VarName.TfsGetPlatformSource] = $"{this.envVars[VarName.TfsGetSource]}Platform";
-            this.envVars[VarName.ServicesPublishPath] = @$"{this.envVars[VarName.TfsSrc]}\Server\Services";
-            this.envVars[VarName.PathToUtilitiesExe] = @$"{this.envVars[VarName.UtilPath]}\Profisee.MasterDataMaestro.Utilities.exe";
+            var TfsBaseDir = $"{this.envVars[nameof(TfsDrive)]}{this.TfsBaseDirPath}";
+            this.envVars[nameof(gitRepos)] = @$"{TfsBaseDir}\Repos";
+            this.envVars[nameof(TfsSrc)] = @$"{this.envVars[nameof(gitRepos)]}\platform";
+            this.envVars[nameof(ScriptsFolder)] = @$"{this.envVars[nameof(TfsSrc)]}\Scripts";
+            this.envVars[nameof(BatchFileLocation)] = @$"{this.envVars[nameof(ScriptsFolder)]}\script_files";
+            this.envVars[nameof(LicenseFile)] = @$"{this.envVars[nameof(BatchFileLocation)]}\Prof_2020r1_1Inst_3Nodes_OnlyProfiseeConnector_Production_@.corp.profisee.com.plic";
+            //this.envVars[nameof(ScriptsDrive)] = this.envVars[nameof(TfsDrive)];
+            this.envVars[nameof(TfsProto)] = @$"{TfsBaseDir}\Prototypes";
+            this.envVars[nameof(TfsSdk)] = @$"{this.envVars[nameof(gitRepos)]}\sdk";
+            this.envVars[nameof(AutomationFolder)] = @$"{this.envVars[nameof(TfsSrc)]}\Testing\Automation";
+            this.envVars[nameof(UtilPath)] = @$"{this.envVars[nameof(TfsSrc)]}\Common\Utilities\bin\Debug";
+            this.envVars[nameof(MaestroSvc)] = $"Profisee {this.envVars[nameof(MaestroVersion)]} ({this.envVars[nameof(MaestroWebAppName)]})";
+            this.envVars[nameof(MaestroSnap)] = $"{this.envVars[nameof(MaestroDb)]}_Snapshot";
+            this.envVars[nameof(TfsGetPlatformSource)] = $"{this.envVars[nameof(TfsGetSource)]}Platform";
+            this.envVars[nameof(ServicesPublishPath)] = @$"{this.envVars[nameof(TfsSrc)]}\Server\Services";
+            this.envVars[nameof(PathToUtilitiesExe)] = @$"{this.envVars[nameof(UtilPath)]}\Profisee.MasterDataMaestro.Utilities.exe";
         }
 
         public virtual string? GetEnvVar(string variable)
@@ -190,6 +189,264 @@ namespace ProfiseeDevUtils.Init
         {
             string projectSourcePath = ProjectSourcePath.Value;
             return Path.Combine(projectSourcePath, "local", "customVars.json");
+        }
+
+        public string? AttachmentRepositoryLocation
+        {
+            get { return this.GetEnvVar(nameof(AttachmentRepositoryLocation)); }
+        }
+        public string? AttachmentRepositoryLogonType
+        {
+            get { return this.GetEnvVar(nameof(AttachmentRepositoryLogonType)); }
+        }
+
+        public string? AttachmentRepositoryUserName
+        {
+            get { return this.GetEnvVar(nameof(AttachmentRepositoryUserName)); }
+        }
+
+        public string? AttachmentRepositoryUserPassword
+        {
+            get { return this.GetEnvVar(nameof(AttachmentRepositoryUserPassword)); }
+        }
+
+        public string? MaestroWebAppName
+        {
+            get { return this.GetEnvVar(nameof(MaestroWebAppName)); }
+        }
+
+        public string? MaestroAppPoolName
+        {
+            get { return this.GetEnvVar(nameof(MaestroAppPoolName)); }
+        }
+
+        public string? MaestroAppPoolUserName
+        {
+            get { return this.GetEnvVar(nameof(MaestroAppPoolUserName)); }
+        }
+
+        public string? MaestroAppPoolUserPassword
+        {
+            get { return this.GetEnvVar(nameof(MaestroAppPoolUserPassword)); }
+        }
+
+        public string? MaestroDb
+        {
+            get { return this.GetEnvVar(nameof(MaestroDb)); }
+        }
+
+        public string? MaestroServicePort
+        {
+            get { return this.GetEnvVar(nameof(MaestroServicePort)); }
+        }
+
+        public string? MaestroServiceUserName
+        {
+            get { return this.GetEnvVar(nameof(MaestroServiceUserName)); }
+        }
+
+        public string? MaestroServiceUserPassword
+        {
+            get { return this.GetEnvVar(nameof(MaestroServiceUserPassword)); }
+        }
+
+        public string? MaestroVersion
+        {
+            get { return this.GetEnvVar(nameof(MaestroVersion)); }
+        }
+
+        public string? MsBuildUtil
+        {
+            get { return this.GetEnvVar(nameof(MsBuildUtil)); }
+        }
+
+        public string? MsTestUtil
+        {
+            get { return this.GetEnvVar(nameof(MsTestUtil)); }
+        }
+
+        public string? SetupTestCategory
+        {
+            get { return this.GetEnvVar(nameof(SetupTestCategory)); }
+        }
+
+        public string? SqlDataPath
+        {
+            get { return this.GetEnvVar(nameof(SqlDataPath)); }
+        }
+
+        public string? SqlServer
+        {
+            get { return this.GetEnvVar(nameof(SqlServer)); }
+        }
+
+        public string? SqlUserName
+        {
+            get { return this.GetEnvVar(nameof(SqlUserName)); }
+        }
+
+        public string? SqlUserPassword
+        {
+            get { return this.GetEnvVar(nameof(SqlUserPassword)); }
+        }
+
+        public string? TfsDrive
+        {
+            get { return this.GetEnvVar(nameof(TfsDrive)); }
+        }
+
+        public string? TfsGetSource
+        {
+            get { return this.GetEnvVar(nameof(TfsGetSource)); }
+        }
+
+        public string? TfsUtil
+        {
+            get { return this.GetEnvVar(nameof(TfsUtil)); }
+        }
+
+        public string? UseHttps
+        {
+            get { return this.GetEnvVar(nameof(UseHttps)); }
+        }
+
+        public string? UseSeparateDatabases
+        {
+            get { return this.GetEnvVar(nameof(UseSeparateDatabases)); }
+        }
+
+        public string? UseWindowsAuthentication
+        {
+            get { return this.GetEnvVar(nameof(UseWindowsAuthentication)); }
+        }
+
+        public string? WebSiteName
+        {
+            get { return this.GetEnvVar(nameof(WebSiteName)); }
+        }
+
+
+        // automation settings
+        public string? CrmDatabaseName
+        {
+            get { return this.GetEnvVar(nameof(CrmDatabaseName)); }
+        }
+
+        public string? CrmEventingDatabaseName
+        {
+            get { return this.GetEnvVar(nameof(CrmEventingDatabaseName)); }
+        }
+
+        public string? CrmSqlServer
+        {
+            get { return this.GetEnvVar(nameof(CrmSqlServer)); }
+        }
+
+        public string? PathToFederation
+        {
+            get { return this.GetEnvVar(nameof(PathToFederation)); }
+        }
+
+        public string? RunAsUserName
+        {
+            get { return this.GetEnvVar(nameof(RunAsUserName)); }
+        }
+
+        public string? ServerRESTUrl
+        {
+            get { return this.GetEnvVar(nameof(ServerRESTUrl)); }
+        }
+
+        public string? ServerRESTVersion
+        {
+            get { return this.GetEnvVar(nameof(ServerRESTVersion)); }
+        }
+
+        public string? ServerURL
+        {
+            get { return this.GetEnvVar(nameof(ServerURL)); }
+        }
+
+        public string? SqlEventingDatabaseName
+        {
+            get { return this.GetEnvVar(nameof(SqlEventingDatabaseName)); }
+        }
+
+        public string? SqlConnectorSqlServer
+        {
+            get { return this.GetEnvVar(nameof(SqlConnectorSqlServer)); }
+        }
+
+
+        // derived variables
+        public string? AutomationFolder
+        {
+            get { return this.GetEnvVar(nameof(AutomationFolder)); }
+        }
+
+        public string? BatchFileLocation
+        {
+            get { return this.GetEnvVar(nameof(BatchFileLocation)); }
+        }
+
+        public string? gitRepos
+        {
+            get { return this.GetEnvVar(nameof(gitRepos)); }
+        }
+
+        public string? LicenseFile
+        {
+            get { return this.GetEnvVar(nameof(LicenseFile)); }
+        }
+
+        public string? MaestroSnap
+        {
+            get { return this.GetEnvVar(nameof(MaestroSnap)); }
+        }
+
+        public string? MaestroSvc
+        {
+            get { return this.GetEnvVar(nameof(MaestroSvc)); }
+        }
+
+        public string? PathToUtilitiesExe
+        {
+            get { return this.GetEnvVar(nameof(PathToUtilitiesExe)); }
+        }
+
+        public string? ScriptsFolder
+        {
+            get { return this.GetEnvVar(nameof(ScriptsFolder)); }
+        }
+
+        public string? ServicesPublishPath
+        {
+            get { return this.GetEnvVar(nameof(ServicesPublishPath)); }
+        }
+
+        public string? TfsGetPlatformSource
+        {
+            get { return this.GetEnvVar(nameof(TfsGetPlatformSource)); }
+        }
+
+        public string? TfsProto
+        {
+            get { return this.GetEnvVar(nameof(TfsProto)); }
+        }
+
+        public string? TfsSdk
+        {
+            get { return this.GetEnvVar(nameof(TfsSdk)); }
+        }
+
+        public string? TfsSrc
+        {
+            get { return this.GetEnvVar(nameof(TfsSrc)); }
+        }
+
+        public string? UtilPath
+        {
+            get { return this.GetEnvVar(nameof(UtilPath)); }
         }
     }
 }
