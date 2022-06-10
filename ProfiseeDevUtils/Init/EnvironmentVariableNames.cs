@@ -50,7 +50,7 @@
         public const string MaestroSnap = "MaestroSnap";
         public const string MaestroSvc = "MaestroSvc";
         public const string PathToUtilitiesExe = "PathToUtilitiesExe";
-        public const string ScriptsDrive = "ScriptsDrive";
+        public const string ScriptsFolder = "ScriptsFolder";
         public const string ServicesPublishPath = "ServicesPublishPath";
         public const string TfsGetPlatformSource = "TfsGetPlatformSource";
         public const string TfsProto = "TfsProto";

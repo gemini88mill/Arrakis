@@ -24,7 +24,7 @@ namespace ProfiseeDevUtils
 
         public Git()
         {
-            this.RootPath = new EnvironmentVariables(false).GetEnvVar("gitRepos") ?? @"C:\DevOps\Repos";
+            this.RootPath = new EnvironmentVariables(false).GetEnvVar(EnvironmentVariableNames.gitRepos) ?? @"C:\DevOps\Repos";
         }
 
         public void Act(string action, string repoName, string branch)

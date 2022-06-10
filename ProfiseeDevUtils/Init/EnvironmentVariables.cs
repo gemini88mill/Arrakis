@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using ProfiseeDevUtils.Infrastructure;
 using Spectre.Console;
+using VarName = ProfiseeDevUtils.Init.EnvironmentVariableNames;
 
 namespace ProfiseeDevUtils.Init
 {
@@ -11,45 +12,45 @@ namespace ProfiseeDevUtils.Init
         private Dictionary<string, string> envVars = new Dictionary<string, string>
         {
             // locals to populate full values
-            { EnvironmentVariableNames.MaestroVersion, "22.2.0" },
-            { EnvironmentVariableNames.TfsDrive, "C:"},
-            { EnvironmentVariableNames.MaestroWebAppName, "Profisee"},
-            { EnvironmentVariableNames.MaestroDb, "Profisee"},
-            { EnvironmentVariableNames.TfsGetSource, "$/Products/"},
-            { EnvironmentVariableNames.SqlDataPath, @"C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA"},
-            { EnvironmentVariableNames.WebSiteName, "Default Web Site"},
-            { EnvironmentVariableNames.SqlServer, "."},
-            { EnvironmentVariableNames.UseWindowsAuthentication, "true"},
-            { EnvironmentVariableNames.SqlUserName, ""},
-            { EnvironmentVariableNames.SqlUserPassword, ""},
-            { EnvironmentVariableNames.MaestroAppPoolName, "Profisee"},
-            { EnvironmentVariableNames.MaestroAppPoolUserName, @"corp\svc_web"},
-            { EnvironmentVariableNames.MaestroAppPoolUserPassword, "Profisee1"},
-            { EnvironmentVariableNames.MaestroServicePort, "8003"},
-            { EnvironmentVariableNames.MaestroServiceUserName, @"corp\svc_maestro"},
-            { EnvironmentVariableNames.MaestroServiceUserPassword, "Profisee1"},
-            { EnvironmentVariableNames.TfsUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"},
-            { EnvironmentVariableNames.MsBuildUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe"},
-            { EnvironmentVariableNames.MsTestUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\VSTest.Console.exe"},
-            { EnvironmentVariableNames.AttachmentRepositoryLocation, @"C:\FileRepository"},
-            { EnvironmentVariableNames.AttachmentRepositoryUserName, @"corp\svc_web"},
-            { EnvironmentVariableNames.AttachmentRepositoryUserPassword, "Profisee1"},
-            { EnvironmentVariableNames.AttachmentRepositoryLogonType, "Interactive"},
-            { EnvironmentVariableNames.UseHttps, "true"},
-            { EnvironmentVariableNames.UseSeparateDatabases, "true"},
-            { EnvironmentVariableNames.SetupTestCategory, "00-ApolloSetup-Small"},
+            { VarName.MaestroVersion, "22.2.0" },
+            { VarName.TfsDrive, "C:"},
+            { VarName.MaestroWebAppName, "Profisee"},
+            { VarName.MaestroDb, "Profisee"},
+            { VarName.TfsGetSource, "$/Products/"},
+            { VarName.SqlDataPath, @"C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA"},
+            { VarName.WebSiteName, "Default Web Site"},
+            { VarName.SqlServer, "."},
+            { VarName.UseWindowsAuthentication, "true"},
+            { VarName.SqlUserName, ""},
+            { VarName.SqlUserPassword, ""},
+            { VarName.MaestroAppPoolName, "Profisee"},
+            { VarName.MaestroAppPoolUserName, @"corp\svc_web"},
+            { VarName.MaestroAppPoolUserPassword, "Profisee1"},
+            { VarName.MaestroServicePort, "8003"},
+            { VarName.MaestroServiceUserName, @"corp\svc_maestro"},
+            { VarName.MaestroServiceUserPassword, "Profisee1"},
+            { VarName.TfsUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"},
+            { VarName.MsBuildUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe"},
+            { VarName.MsTestUtil, @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\VSTest.Console.exe"},
+            { VarName.AttachmentRepositoryLocation, @"C:\FileRepository"},
+            { VarName.AttachmentRepositoryUserName, @"corp\svc_web"},
+            { VarName.AttachmentRepositoryUserPassword, "Profisee1"},
+            { VarName.AttachmentRepositoryLogonType, "Interactive"},
+            { VarName.UseHttps, "true"},
+            { VarName.UseSeparateDatabases, "true"},
+            { VarName.SetupTestCategory, "00-ApolloSetup-Small"},
 
             // automation settings
-            { EnvironmentVariableNames.SqlEventingDatabaseName, "" },
-            { EnvironmentVariableNames.SqlConnectorSqlServer, ""},
-            { EnvironmentVariableNames.ServerURL, "net.tcp://127.0.0.1/Profisee"},
-            { EnvironmentVariableNames.CrmSqlServer, ""},
-            { EnvironmentVariableNames.CrmEventingDatabaseName, ""},
-            { EnvironmentVariableNames.CrmDatabaseName, ""},
-            { EnvironmentVariableNames.PathToFederation, @"C:\Program Files\Profisee\Master Data Maestro Integrator\4.0.1\IntegratorCLU.exe"},
-            { EnvironmentVariableNames.RunAsUserName, ""},
-            { EnvironmentVariableNames.ServerRESTVersion, "v1"},
-            { EnvironmentVariableNames.ServerRESTUrl, "http://127.0.0.1/profisee/rest"},
+            { VarName.SqlEventingDatabaseName, "" },
+            { VarName.SqlConnectorSqlServer, ""},
+            { VarName.ServerURL, "net.tcp://127.0.0.1/Profisee"},
+            { VarName.CrmSqlServer, ""},
+            { VarName.CrmEventingDatabaseName, ""},
+            { VarName.CrmDatabaseName, ""},
+            { VarName.PathToFederation, @"C:\Program Files\Profisee\Master Data Maestro Integrator\4.0.1\IntegratorCLU.exe"},
+            { VarName.RunAsUserName, ""},
+            { VarName.ServerRESTVersion, "v1"},
+            { VarName.ServerRESTUrl, "http://127.0.0.1/profisee/rest"},
         };
 
         public ILogger Logger { get; set; } = new Logger();
@@ -144,22 +145,22 @@ namespace ProfiseeDevUtils.Init
 
         public void AddDerivedEnvVars()
         {
-            var TfsBaseDir = $"{this.envVars["TfsDrive"]}{this.TfsBaseDirPath}";
-            this.envVars["gitRepos"] = @$"{TfsBaseDir}\Repos";
-            this.envVars["TfsSrc"] = @$"{this.envVars["gitRepos"]}\platform";
-            this.envVars["ScriptsFolder"] = @$"{this.envVars["TfsSrc"]}\Scripts";
-            this.envVars["BatchFileLocation"] = @$"{this.envVars["ScriptsFolder"]}\script_files";
-            this.envVars["LicenseFile"] = @$"{this.envVars["BatchFileLocation"]}\Prof_2020r1_1Inst_3Nodes_OnlyProfiseeConnector_Production_@.corp.profisee.com.plic";
-            //this.envVars["ScriptsDrive"] = this.envVars["TfsDrive"];
-            this.envVars["TfsProto"] = @$"{TfsBaseDir}\Prototypes";
-            this.envVars["TfsSdk"] = @$"{this.envVars["gitRepos"]}\sdk";
-            this.envVars["AutomationFolder"] = @$"{this.envVars["TfsSrc"]}\Testing\Automation";
-            this.envVars["UtilPath"] = @$"{this.envVars["TfsSrc"]}\Common\Utilities\bin\Debug";
-            this.envVars["MaestroSvc"] = $"Profisee {this.envVars["MaestroVersion"]} ({this.envVars["MaestroWebAppName"]})";
-            this.envVars["MaestroSnap"] = $"{this.envVars["MaestroDb"]}_Snapshot";
-            this.envVars["TfsGetPlatformSource"] = $"{this.envVars["TfsGetSource"]}Platform";
-            this.envVars["ServicesPublishPath"] = @$"{this.envVars["TfsSrc"]}\Server\Services";
-            this.envVars["PathToUtilitiesExe"] = @$"{this.envVars["UtilPath"]}\Profisee.MasterDataMaestro.Utilities.exe";
+            var TfsBaseDir = $"{this.envVars[VarName.TfsDrive]}{this.TfsBaseDirPath}";
+            this.envVars[VarName.gitRepos] = @$"{TfsBaseDir}\Repos";
+            this.envVars[VarName.TfsSrc] = @$"{this.envVars[VarName.gitRepos]}\platform";
+            this.envVars[VarName.ScriptsFolder] = @$"{this.envVars[VarName.TfsSrc]}\Scripts";
+            this.envVars[VarName.BatchFileLocation] = @$"{this.envVars[VarName.ScriptsFolder]}\script_files";
+            this.envVars[VarName.LicenseFile] = @$"{this.envVars[VarName.BatchFileLocation]}\Prof_2020r1_1Inst_3Nodes_OnlyProfiseeConnector_Production_@.corp.profisee.com.plic";
+            //this.envVars[VarName.ScriptsDrive] = this.envVars[VarName.TfsDrive];
+            this.envVars[VarName.TfsProto] = @$"{TfsBaseDir}\Prototypes";
+            this.envVars[VarName.TfsSdk] = @$"{this.envVars[VarName.gitRepos]}\sdk";
+            this.envVars[VarName.AutomationFolder] = @$"{this.envVars[VarName.TfsSrc]}\Testing\Automation";
+            this.envVars[VarName.UtilPath] = @$"{this.envVars[VarName.TfsSrc]}\Common\Utilities\bin\Debug";
+            this.envVars[VarName.MaestroSvc] = $"Profisee {this.envVars[VarName.MaestroVersion]} ({this.envVars[VarName.MaestroWebAppName]})";
+            this.envVars[VarName.MaestroSnap] = $"{this.envVars[VarName.MaestroDb]}_Snapshot";
+            this.envVars[VarName.TfsGetPlatformSource] = $"{this.envVars[VarName.TfsGetSource]}Platform";
+            this.envVars[VarName.ServicesPublishPath] = @$"{this.envVars[VarName.TfsSrc]}\Server\Services";
+            this.envVars[VarName.PathToUtilitiesExe] = @$"{this.envVars[VarName.UtilPath]}\Profisee.MasterDataMaestro.Utilities.exe";
         }
 
         public virtual string? GetEnvVar(string variable)
