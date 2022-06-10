@@ -43,9 +43,9 @@ namespace ProfiseeDevUtils.Commands
 
         public Command git = new Command("git", "Perform Git operations on a project")
         {
-            new Argument<string>("action", "type of action (push, pull, merge...)"),
-            new Argument<string>("repo", "repo to perform operation on"),
-            new Argument<string>("branch", "branch to perform git operation on"),
+            new Argument<string>("action", "type of action (status, push, pull, merge...)"),
+            new Option<string>("repo", "repo to perform operation on"),
+            new Option<string>("branch", "branch to perform git operation on"),
         };
 
         public ProfiseeCommands()
@@ -57,9 +57,9 @@ namespace ProfiseeDevUtils.Commands
             git.Handler = CommandHandler.Create<string, string, string, IConsole>(HandleGit);
         }
 
-        private void HandleGit(string arg1, string arg2, string arg3, IConsole console)
+        private void HandleGit(string action, string repo, string branch, IConsole console)
         {
-            console.WriteLine("not implemented");
+            new Git().Act(action, repo, branch);
         }
 
         private void HandleInit(IConsole console)
