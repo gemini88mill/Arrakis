@@ -61,23 +61,24 @@ namespace ProfiseeDevUtils.Commands
 
         private void HandleGit(string action, string repo, string branch, IConsole console)
         {
+            var git = new Git();
             if (string.IsNullOrEmpty(repo))
-            { 
-                var gitRepoRoot = new EnvironmentVariables(true).GetEnvVar("gitRepos") ?? @"C:\DevOps\Repos";
-                var getgits = Directory.GetDirectories(gitRepoRoot, ".git", SearchOption.AllDirectories);
-                getgits = getgits.Prepend("All").ToArray();
-                var selectedRepo = AnsiConsole.Prompt(
+            {
+                var repos = git.GetGitRepoFolders();
+
+                repos = repos.Prepend("All").ToArray();
+                repo = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title($"Select Repo to run 'git {action}' on")
-                        .AddChoices(getgits)
+                        .AddChoices(repos)
                     );
-                repo = selectedRepo.Replace(".git", "").Replace(gitRepoRoot, "").Trim('\\');
-                if (repo == "All")
+                if (repo.ToLower() == "all")
                 {
                     repo = string.Empty;
                 }
             }
-            new Git().Act(action, repo, branch);
+
+            git.Act(action, repo, branch);
         }
 
         private void HandleInit(bool? quiet, IConsole console)
@@ -85,7 +86,7 @@ namespace ProfiseeDevUtils.Commands
             console.WriteLine("Checking prereqs...");
             if (!new PreReqs(quiet).Cheq())
             {
-                console.WriteLine("You don't have the required prereqs. Install the ones reported above first and run again");
+                AnsiConsole.MarkupLine("[bold red]You don't have the required prereqs. Install the ones reported above first and run again[/]");
                 return;
             }
 

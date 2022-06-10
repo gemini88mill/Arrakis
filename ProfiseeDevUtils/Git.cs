@@ -88,5 +88,14 @@ namespace ProfiseeDevUtils
             this.Logger.WriteLine($"-------- {repoName} --------");
             Process.Start(processInfo)?.WaitForExit();
         }
+
+        public string[] GetGitRepoFolders()
+        {
+            var paths = Directory.GetDirectories(this.RootPath).Where(dir =>
+                    Directory.GetDirectories(dir, ".git").Count() > 0
+                );
+
+            return paths.Select(p => p.Replace(this.RootPath, "").Trim('\\')).ToArray();
+        }
     }
 }
