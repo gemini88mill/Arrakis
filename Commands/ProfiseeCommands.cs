@@ -78,7 +78,7 @@ namespace ProfiseeDevUtils.Commands
 
         private void HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
-            var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".git", SearchOption.AllDirectories);
+            var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".sln", SearchOption.AllDirectories);
 
             var fileNames = new List<DirectoryInfo>();
             foreach(var item in getgits)

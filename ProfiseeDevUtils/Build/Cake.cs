@@ -71,7 +71,7 @@ namespace ProfiseeDevUtils.Build
             }
         }
 
-        [TaskName("Git")]
+        [TaskName("GitPull")]
         public sealed class GitTask : FrostingTask<BuildContext>
         {
             public override bool ShouldRun(BuildContext context)
@@ -81,7 +81,7 @@ namespace ProfiseeDevUtils.Build
 
             public override void Run(BuildContext context)
             {
-                context.GitPull(context.rootPath, context.GitConfigGet<string>("user.name", ""), context.GitConfigGet<string>("user.email", ""));
+                context.GitPull(context.rootPath, context.GitConfigGet<string>(context.rootPath, "user.name"), context.GitConfigGet<string>(context.rootPath, "user.email"));
             }
         }
 
