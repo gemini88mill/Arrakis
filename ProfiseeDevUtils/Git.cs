@@ -29,6 +29,7 @@ namespace ProfiseeDevUtils
         {
             var gitCommands = new Dictionary<string, Action<string, string>>(StringComparer.InvariantCultureIgnoreCase)
             {
+                { "clone", (a, b) => Clone(a, b) },
                 { "pull", (a, b) => Pull(a, b) },
                 { "status", (a, b) => Status(a, b) }
             };
@@ -52,10 +53,26 @@ namespace ProfiseeDevUtils
             gitCommands[action](repoName, branch);
         }
 
+        public void Clone(string repoName, string _)
+        {
+            var repoPath = Path.Combine(this.RootPath, repoName);
+            if (Directory.Exists(repoPath))
+            {
+                Console.WriteLine($"Repo {repoName} has already been created at {repoPath}");
+                return;
+            }
+
+            var gitUrl = $"https://profisee.visualstudio.com/Products/_git/{repoName}";
+            Console.WriteLine($"cloning {gitUrl}");
+            var processInfo = new ProcessStartInfo("git", $"clone {gitUrl}");
+            processInfo.WorkingDirectory = repoPath;
+            Process.Start(processInfo)?.WaitForExit();
+        }
+
         public void Pull(string repoName, string _)
         {
             var repoPath = Path.Combine(this.RootPath, repoName);
-            Console.WriteLine($"git pull in {repoPath}");
+            Console.WriteLine($"pulling latest for {repoName}");
             var processInfo = new ProcessStartInfo("git", "pull");
             processInfo.WorkingDirectory = repoPath;
             Process.Start(processInfo)?.WaitForExit();

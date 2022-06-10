@@ -43,9 +43,9 @@ namespace ProfiseeDevUtils.Commands
 
         public Command git = new Command("git", "Perform Git operations on a project")
         {
-            new Argument<string>("action", "type of action (status, push, pull, merge...)"),
-            new Option<string>("repo", "repo to perform operation on"),
-            new Option<string>("branch", "branch to perform git operation on"),
+            new Argument<string>("action", "type of action (clone, status, push, pull, merge...)"),
+            new Option<string>(new[] { "-r", "--repo" }, "repo to perform operation on"),
+            new Option<string>(new[] { "-b", "--branch" }, "branch to perform git operation on"),
         };
 
         public ProfiseeCommands()
