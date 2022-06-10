@@ -1,4 +1,5 @@
 ﻿using ProfiseeDevUtils.Build;
+using ProfiseeDevUtils.Init;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -71,9 +72,11 @@ namespace ProfiseeDevUtils.Commands
             console.WriteLine("This command is not implemented yet");
         }
 
-        private void HandleEnvVars(bool? arg1, IConsole console)
+        private void HandleEnvVars(bool? quiet, IConsole console)
         {
-            console.WriteLine("This command is not implemented yet");
+            console.WriteLine("Setting environment variables");
+            new EnvironmentVariables(quiet).SetAll();
+            console.WriteLine("Environment variables set!");
         }
 
         private void HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)

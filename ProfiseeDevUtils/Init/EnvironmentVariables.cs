@@ -4,6 +4,7 @@ namespace ProfiseeDevUtils.Init
 {
     public class EnvironmentVariables
     {
+        private readonly bool quiet = false;
         private string TfsBaseDirPath = @"\DevOps";
         private Dictionary<string, string> envVars = new Dictionary<string, string>
         {
@@ -49,10 +50,15 @@ namespace ProfiseeDevUtils.Init
             { "ServerRESTUrl", "http://127.0.0.1/profisee/rest"},
         };
 
+        public EnvironmentVariables(bool? quiet)
+        {
+            this.quiet = quiet ?? false;
+        }
+
         /// <summary>
         /// Sets the environment variables
         /// </summary>
-        public void Set()
+        public void SetAll()
         {
             string projectSourcePath = ProjectSourcePath.Value;
             var customVars = this.ParseCustomVars(@$"{projectSourcePath}\local\customVars.json");
@@ -77,12 +83,20 @@ namespace ProfiseeDevUtils.Init
         public Dictionary<string, string> ParseCustomVars(string file)
         {
             Dictionary<string, string>? vars;
+            if (!File.Exists(file))
+            {
+                this.log($"No custom vars file found at {file}");
+                return new Dictionary<string, string>();
+            }
+
+            this.log($"Reading custom vars file at {file}");
             using (StreamReader r = new StreamReader(file))
             {
                 string json = r.ReadToEnd();
                 vars = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             }
 
+            this.log($"Read {vars?.Count ?? 0} custom vars");
             return vars ?? new Dictionary<string, string>();
         }
 
@@ -113,7 +127,15 @@ namespace ProfiseeDevUtils.Init
 
         public virtual void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget envVarTarget)
         {
+            this.log($"Setting {variable} to {value}");
             Environment.SetEnvironmentVariable(variable, value, envVarTarget);
+        }
+
+        private void log(string message)
+        {
+            if (this.quiet) return;
+
+            Console.WriteLine(message);
         }
     }
 }
