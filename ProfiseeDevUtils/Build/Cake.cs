@@ -15,6 +15,7 @@ using Cake.Common.Diagnostics;
 using Cake.Git;
 using Cake.Common.Tools.MSBuild;
 using Cake.Common.Tools.DotNetCore;
+using Spectre.Console;
 
 namespace ProfiseeDevUtils.Build
 {
@@ -66,24 +67,31 @@ namespace ProfiseeDevUtils.Build
         [IsDependentOn(typeof(CleanTask))]
         public sealed class BuildTask : FrostingTask<BuildContext>
         {
-            public override void Run(BuildContext context)
+            public override async void Run(BuildContext context)
             {
-                if(context.fileInfo.Name == "ProfiseePlatform")
-                {
-                    context.MSBuild(context.fileInfo.FullName, new MSBuildSettings
-                    {
-                        Verbosity = context.LogLevel,
-                        Configuration = "Debug"
+                await AnsiConsole.Status()
+                    .StartAsync("Thinking...", ctx => {
+                        if (context.fileInfo.Name == "ProfiseePlatform")
+                        {
+                            context.MSBuild(context.fileInfo.FullName, new MSBuildSettings
+                            {
+                                Verbosity = context.LogLevel,
+                                Configuration = "Debug"
+                            });
+                        }
+                        else
+                        {
+                            context.DotNetBuild(context.solutionFullPath, new DotNetBuildSettings
+                            {
+                                Configuration = context.MsBuildConfiguration,
+                                Verbosity = context.DnVerbosity
+                            });
+                        }
+
+                        return Task.CompletedTask;
                     });
-                }
-                else
-                {
-                    context.DotNetBuild(context.solutionFullPath, new DotNetBuildSettings
-                    {
-                        Configuration = context.MsBuildConfiguration,
-                        Verbosity = context.DnVerbosity
-                    });
-                }
+
+                
             }
         }
 
@@ -142,6 +150,7 @@ namespace ProfiseeDevUtils.Build
                 context.DiagnosticVerbosity();
                 new Utils().TurnOffService("Profisee 22.2.0 (Profisee)");
                 new Utils().TurnOffService("W3SVC");
+                new Utils().TurnOnService("W3SVC");
             }
 
             public override void Teardown(BuildContext context, ITeardownContext info)

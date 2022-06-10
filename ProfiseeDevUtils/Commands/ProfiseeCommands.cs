@@ -95,7 +95,7 @@ namespace ProfiseeDevUtils.Commands
             console.WriteLine("Happy coding!!");
         }
 
-        private void HandleConfig(bool? arg1, IConsole console)
+        private void HandleConfig(bool? quiet, IConsole console)
         {
             console.WriteLine("This command is not implemented yet");
         }
