@@ -52,7 +52,7 @@ namespace ProfiseeDevUtils.Commands
 
         public ProfiseeCommands()
         {
-            build.Handler = CommandHandler.Create<string?, string?, string?, string?, bool?, bool?, bool?, IConsole>(HandleBuild);
+            build.Handler = CommandHandler.Create<string?, string?, string?, string?, bool?, bool?, bool?, IConsole>(HandleBuildAsync);
             config.Handler = CommandHandler.Create<bool?, IConsole>(HandleConfig);
             envVars.Handler = CommandHandler.Create<bool?, IConsole>(HandleEnvVars);
             init.Handler = CommandHandler.Create<IConsole>(HandleInit);
@@ -81,17 +81,18 @@ namespace ProfiseeDevUtils.Commands
             console.WriteLine("Environment variables set!");
         }
 
-        private int HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
+        private async Task<int> HandleBuildAsync(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
             Utils utils = new Utils();
             var root = @"C:\DevOps\Repos";
             var slns = new List<string>() { "All Repos" };
+            string repo = "";
 
             if (string.IsNullOrEmpty(name))
             {
                 slns = utils.GetDefaultSlns(root);
 
-                var repos = AnsiConsole.Prompt(
+                repo = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Select Repo to build")
                     .AddChoices(slns)
@@ -99,26 +100,23 @@ namespace ProfiseeDevUtils.Commands
             }
             else
             {
-                AnsiConsole.WriteLine("Searching for Solution");
-                var folder = utils.GetFolderByFileName(root, name);
-                AnsiConsole.Write(folder);
+                await AnsiConsole.Status()
+                    .StartAsync("Fetching Project", ctx => {
+                        repo = utils.GetFolderByFileName(root, name);
+                        return Task.CompletedTask;
+                    });
             }
+            //return 1;
 
-            return 1;
-
-            
-            
-
-            
-
-            //return new CakeHost()
-            //            .UseContext<BuildContext>()
-            //            .UseLifetime<BuildLifetime>()
-            //            .Run(new[]
-            //            {
-            //                $"--rootPath={root}",
-            //                $"--logLevel={0}"
-            //            });
+            return new CakeHost()
+                        .UseContext<BuildContext>()
+                        .UseLifetime<BuildLifetime>()
+                        .Run(new[]
+                        {
+                            $"--rootPath={root}",
+                            $"--logLevel={0}",
+                            $"--slnPath={repo}"
+                        });
         }
     }
 }
