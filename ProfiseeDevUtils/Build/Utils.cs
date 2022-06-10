@@ -65,5 +65,15 @@ namespace ProfiseeDevUtils.Build
             return slns;
         }
 
+        public void IISStart()
+        {
+            Process.Start("iisstart.bat");
+        }
+
+        public void IISStop()
+        {
+            Process.Start("iisstop.bat");
+        }
+
     }
 }
