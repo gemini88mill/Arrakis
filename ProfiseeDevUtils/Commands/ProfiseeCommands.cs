@@ -82,6 +82,13 @@ namespace ProfiseeDevUtils.Commands
 
         private void HandleInit(bool? quiet, IConsole console)
         {
+            console.WriteLine("Checking prereqs...");
+            if (!new PreReqs(quiet).Cheq())
+            {
+                console.WriteLine("You don't have the required prereqs. Install the ones reported above first and run again");
+                return;
+            }
+
             console.WriteLine("Initializing new dev box...");
             var envVariables = new EnvironmentVariables(quiet);
             envVariables.CreateCustomVarsFile();
@@ -91,7 +98,7 @@ namespace ProfiseeDevUtils.Commands
             new Git().Act("clone", string.Empty, string.Empty);
 
             console.WriteLine("Finished setting up new dev box");
-            AnsiConsole.Markup("You [bold yellow]should[/] close this window and reopen to get the latest variables");
+            AnsiConsole.MarkupLine("You [bold yellow]should[/] close this window and reopen to get the latest variables");
             console.WriteLine("Happy coding!!");
         }
 
