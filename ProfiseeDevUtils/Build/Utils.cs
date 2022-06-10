@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProfiseeDevUtils.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
@@ -9,18 +10,19 @@ namespace ProfiseeDevUtils.Build
 {
     public class Utils
     {
+        public ILogger Logger { get; set; } = new Logger();
 
         public void TurnOnService(string name)
         {
             ServiceController service = new ServiceController(name);
             if(service.Status == ServiceControllerStatus.Running)
             {
-                Console.WriteLine("Service is already started");
+                this.Logger.WriteLine("Service is already started");
                 return;
             }
             service.Start();
             service.WaitForStatus(ServiceControllerStatus.Running);
-            Console.WriteLine("Service has successfully started");
+            this.Logger.WriteLine("Service has successfully started");
         }
 
         public void TurnOffService(string name)
@@ -28,12 +30,12 @@ namespace ProfiseeDevUtils.Build
             ServiceController service = new ServiceController(name);
             if (service.Status == ServiceControllerStatus.Stopped)
             {
-                Console.WriteLine("Service is already stopped");
+                this.Logger.WriteLine("Service is already stopped");
                 return;
             }
             service.Stop();
             service.WaitForStatus(ServiceControllerStatus.Stopped);
-            Console.WriteLine("Service has successfully stopped");
+            this.Logger.WriteLine("Service has successfully stopped");
         }
 
         public string[] GetFilesByType(string root, string type)

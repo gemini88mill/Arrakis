@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ProfiseeDevUtils.Infrastructure;
 using Spectre.Console;
 
 namespace ProfiseeDevUtils.Init
@@ -50,6 +51,8 @@ namespace ProfiseeDevUtils.Init
             { "ServerRESTVersion", "v1"},
             { "ServerRESTUrl", "http://127.0.0.1/profisee/rest"},
         };
+
+        public ILogger Logger { get; set; } = new Logger();
 
         public EnvironmentVariables(bool? quiet = null)
         {
@@ -173,7 +176,7 @@ namespace ProfiseeDevUtils.Init
         {
             if (this.quiet) return;
 
-            Console.WriteLine(message);
+            this.Logger.WriteLine(message);
         }
 
         private string getCustomVarsFilePath()
