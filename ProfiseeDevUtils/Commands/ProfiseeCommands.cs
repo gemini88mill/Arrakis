@@ -83,26 +83,42 @@ namespace ProfiseeDevUtils.Commands
 
         private int HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
-            var root = @"C:\DevOps\Repos\rest-api";
-            var path = new Utils().GetFolderByFileName(@"C:\DevOps\Repos", name);
-            var slns = new Utils().GetFilesByType(@"C:\DevOps\Repos", "sln");
-            slns.Union(new[] { "ALL" });
-            var repos = AnsiConsole.Prompt(
+            Utils utils = new Utils();
+            var root = @"C:\DevOps\Repos";
+            var slns = new List<string>() { "All Repos" };
+
+            if (string.IsNullOrEmpty(name))
+            {
+                slns = utils.GetDefaultSlns(root);
+
+                var repos = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Select Repo to build")
                     .AddChoices(slns)
                 );
+            }
+            else
+            {
+                AnsiConsole.WriteLine("Searching for Solution");
+                var folder = utils.GetFolderByFileName(root, name);
+                AnsiConsole.Write(folder);
+            }
+
+            return 1;
+
+            
+            
 
             
 
-            return new CakeHost()
-                        .UseContext<BuildContext>()
-                        .UseLifetime<BuildLifetime>()
-                        .Run(new[]
-                        {
-                            $"--rootPath={root}",
-                            $"--logLevel={0}"
-                        });
+            //return new CakeHost()
+            //            .UseContext<BuildContext>()
+            //            .UseLifetime<BuildLifetime>()
+            //            .Run(new[]
+            //            {
+            //                $"--rootPath={root}",
+            //                $"--logLevel={0}"
+            //            });
         }
     }
 }

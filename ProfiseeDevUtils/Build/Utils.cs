@@ -48,5 +48,17 @@ namespace ProfiseeDevUtils.Build
 
         public string? GetFolderByFileName(string root, string fileName) => Directory.GetFiles(root, $"{fileName}.*", SearchOption.AllDirectories).FirstOrDefault();
 
+        public List<string> GetDefaultSlns(string root)
+        {
+            var gits = Directory.GetDirectories(root);
+            List<string> slns = new List<string>();
+            foreach (var g in gits)
+            {
+               slns.AddRange(Directory.GetFiles(g, $"*.sln"));
+            }
+
+            return slns;
+        }
+
     }
 }
