@@ -26,13 +26,18 @@ namespace ProfiseeDevUtils.Build
 
         public Verbosity LogLevel { get; set; }
 
+        public FileInfo fileInfo { get; set; }
+
         public BuildContext(ICakeContext context)
             : base(context)
         {
-            MsBuildConfiguration = context.Argument("configuration", "Debug");
-            rootPath = context.Argument("rootPath", @"C:\DevOps\Repos\rest-api");
-            LogLevel = context.Argument("LogLevel", Verbosity.Normal);
             solutionFullPath = context.Argument("slnPath", @"C:\DevOps\Repos\rest-api\Gateway.Api.sln");
+            fileInfo = new FileInfo(solutionFullPath);
+
+            rootPath = fileInfo.DirectoryName;
+
+            MsBuildConfiguration = context.Argument("configuration", "Debug");
+            LogLevel = context.Argument("LogLevel", Verbosity.Normal);
         }
 
         [TaskName("Clean")]
@@ -40,6 +45,7 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
+                Console.ReadLine();
                 //watch out of bin on mode modules...
                 context.CleanDirectories(context.rootPath + "/**/bin");
                 if(context.LogLevel < Verbosity.Normal)

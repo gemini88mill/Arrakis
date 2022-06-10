@@ -113,9 +113,9 @@ namespace ProfiseeDevUtils.Commands
                         .UseLifetime<BuildLifetime>()
                         .Run(new[]
                         {
-                            $"--rootPath={root}",
+                            $"--rootPath={new DirectoryInfo(repo).Name}",
                             $"--logLevel={0}",
-                            $"--slnPath={repo}"
+                            $"--slnPath={repo}",
                         });
         }
     }
