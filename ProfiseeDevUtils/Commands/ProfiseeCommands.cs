@@ -62,7 +62,7 @@ namespace ProfiseeDevUtils.Commands
         private void HandleGit(string action, string repo, string branch, IConsole console)
         {
             var git = new Git();
-            if (string.IsNullOrEmpty(repo))
+            if (string.IsNullOrEmpty(repo) && action.ToLower() != "clone")
             {
                 var repos = git.GetGitRepoFolders();
 
