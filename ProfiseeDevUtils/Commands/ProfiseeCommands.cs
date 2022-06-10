@@ -61,27 +61,35 @@ namespace ProfiseeDevUtils.Commands
 
         private void HandleGit(string action, string repo, string branch, IConsole console)
         {
+            var git = new Git();
             if (string.IsNullOrEmpty(repo))
-            { 
-                var gitRepoRoot = new EnvironmentVariables(true).GetEnvVar("gitRepos") ?? @"C:\DevOps\Repos";
-                var getgits = Directory.GetDirectories(gitRepoRoot, ".git", SearchOption.AllDirectories);
-                getgits = getgits.Prepend("All").ToArray();
-                var selectedRepo = AnsiConsole.Prompt(
+            {
+                var repos = git.GetGitRepoFolders();
+
+                repos = repos.Prepend("All").ToArray();
+                repo = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title($"Select Repo to run 'git {action}' on")
-                        .AddChoices(getgits)
+                        .AddChoices(repos)
                     );
-                repo = selectedRepo.Replace(".git", "").Replace(gitRepoRoot, "").Trim('\\');
-                if (repo == "All")
+                if (repo.ToLower() == "all")
                 {
                     repo = string.Empty;
                 }
             }
-            new Git().Act(action, repo, branch);
+
+            git.Act(action, repo, branch);
         }
 
         private void HandleInit(bool? quiet, IConsole console)
         {
+            console.WriteLine("Checking prereqs...");
+            if (!new PreReqs(quiet).Cheq())
+            {
+                AnsiConsole.MarkupLine("[bold red]You don't have the required prereqs. Install the ones reported above first and run again[/]");
+                return;
+            }
+
             console.WriteLine("Initializing new dev box...");
             var envVariables = new EnvironmentVariables(quiet);
             envVariables.CreateCustomVarsFile();
@@ -91,7 +99,7 @@ namespace ProfiseeDevUtils.Commands
             new Git().Act("clone", string.Empty, string.Empty);
 
             console.WriteLine("Finished setting up new dev box");
-            AnsiConsole.Markup("You [bold yellow]should[/] close this window and reopen to get the latest variables");
+            AnsiConsole.MarkupLine("You [bold yellow]should[/] close this window and reopen to get the latest variables");
             console.WriteLine("Happy coding!!");
         }
 
@@ -117,7 +125,7 @@ namespace ProfiseeDevUtils.Commands
 
             if (string.IsNullOrEmpty(name))
             {
-                slns = utils.GetDefaultSlns(root);
+                slns.AddRange(utils.GetDefaultSlns(root));
 
                 repo = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()

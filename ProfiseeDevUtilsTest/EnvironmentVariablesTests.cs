@@ -21,7 +21,13 @@ namespace ProfiseeDevUtilsTest
             var envVars = this.environmentVariablesMock.GetEnvironmentVariables();
             foreach (var envVar in envVars)
             {
-                var myEnvVar = Environment.GetEnvironmentVariable(envVar.Key, EnvironmentVariableTarget.User);
+                var myEnvVar = Environment.GetEnvironmentVariable(envVar.Key);
+                if (string.IsNullOrWhiteSpace(myEnvVar))
+                {
+                    Assert.IsTrue(string.IsNullOrWhiteSpace(envVar.Value));
+                    continue;
+                }
+
                 Assert.AreEqual(myEnvVar, envVar.Value, $"Expected {envVar.Key} to be {myEnvVar} but instead  was {envVar.Value}");
             }
         }
