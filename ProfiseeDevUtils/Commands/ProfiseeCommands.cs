@@ -59,6 +59,22 @@ namespace ProfiseeDevUtils.Commands
 
         private void HandleGit(string action, string repo, string branch, IConsole console)
         {
+            if (string.IsNullOrEmpty(repo))
+            { 
+                var gitRepoRoot = new EnvironmentVariables(true).GetEnvVar("gitRepos") ?? @"C:\DevOps\Repos";
+                var getgits = Directory.GetDirectories(gitRepoRoot, ".git", SearchOption.AllDirectories);
+                getgits = getgits.Prepend("All").ToArray();
+                var selectedRepo = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title($"Select Repo to run 'git {action}' on")
+                        .AddChoices(getgits)
+                    );
+                repo = selectedRepo.Replace(".git", "").Replace(gitRepoRoot, "").Trim('\\');
+                if (repo == "All")
+                {
+                    repo = string.Empty;
+                }
+            }
             new Git().Act(action, repo, branch);
         }
 
