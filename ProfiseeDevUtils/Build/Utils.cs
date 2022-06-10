@@ -48,7 +48,5 @@ namespace ProfiseeDevUtils.Build
 
         public string? GetFolderByFileName(string root, string fileName) => Directory.GetFiles(root, $"{fileName}.*", SearchOption.AllDirectories).FirstOrDefault();
 
-
-
     }
 }
