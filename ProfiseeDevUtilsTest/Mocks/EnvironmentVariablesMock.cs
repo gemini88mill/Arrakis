@@ -8,6 +8,10 @@ namespace ProfiseeDevUtilsTest.Mocks
     {
         private Dictionary<string, string> envVars = new Dictionary<string, string>();
 
+        public EnvironmentVariablesMock(bool? quiet) : base(quiet)
+        {
+        }
+
         public override void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget envVarTarget)
         {
             this.envVars[variable] = value;
