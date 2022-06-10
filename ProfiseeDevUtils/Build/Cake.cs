@@ -46,7 +46,7 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                var slnFullPath = Directory.GetFiles(context.rootPath, ".sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
+                var slnFullPath = Directory.GetFiles(context.rootPath, "sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
 
                 context.DotNetBuild(slnFullPath, new DotNetBuildSettings
                 {
@@ -61,7 +61,7 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                var slnFullPath = Directory.GetFiles(context.rootPath, ".sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
+                var slnFullPath = Directory.GetFiles(context.rootPath, "sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
 
                 context.DotNetTest(slnFullPath, new DotNetTestSettings
                 {

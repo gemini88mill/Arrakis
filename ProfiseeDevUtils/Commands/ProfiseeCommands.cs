@@ -1,4 +1,5 @@
-﻿using ProfiseeDevUtils.Build;
+﻿using Cake.Frosting;
+using ProfiseeDevUtils.Build;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.CommandLine.NamingConventionBinder;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ProfiseeDevUtils.Build.BuildContext;
 
 namespace ProfiseeDevUtils.Commands
 {
@@ -76,14 +78,24 @@ namespace ProfiseeDevUtils.Commands
             console.WriteLine("This command is not implemented yet");
         }
 
-        private void HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
+        private int HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
+            var root = @"C:\DevOps\Repos";
+            var path = new Utils().GetFolderByFileName(@"C:\DevOps\Repos", name);
             var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".git", SearchOption.AllDirectories);
             var repos = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Select Repo to build")
                     .AddChoices(getgits)
                 );
+
+            return new CakeHost()
+                        .UseContext<BuildContext>()
+                        .UseLifetime<BuildLifetime>()
+                        .Run(new[]
+                        {
+                            $"--rootPath={root}"
+                        });
         }
     }
 }

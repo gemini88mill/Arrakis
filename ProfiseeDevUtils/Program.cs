@@ -8,6 +8,7 @@ using static ProfiseeDevUtils.Build.BuildContext;
 Console.WriteLine("Hello, World!");
 
 Utils utils = new Utils();
+string root = @"C:\DevOps\Repos";
 
 //var getProj = utils.GetFilesByType(@"C:\DevOps\Repos", "csproj");
 //var getSln = utils.GetFilesByType(@"C:\DevOps\Repos", "sln");
@@ -38,5 +39,7 @@ var cmd = new RootCommand
 };
 
 return cmd.Invoke(args);
+
+//Console.WriteLine(utils.GetFolderByFileName(root, "Gateway.Api.sln"));
 
 

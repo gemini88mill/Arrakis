@@ -1,4 +1,5 @@
 ﻿using ProfiseeDevUtils.Build;
+using ProfiseeDevUtils.Build;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -76,8 +77,16 @@ namespace ProfiseeDevUtils.Commands
             console.WriteLine("This command is not implemented yet");
         }
 
-        private void HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
+        private int HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
+            string projectRoot = @"C:\DevOps\Repos";
+            Utils utils = new Utils();
+
+            if (name)
+            {
+                utils.GetFolderByFileName(projectRoot, name);
+            }
+
             var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".sln", SearchOption.AllDirectories);
 
             var fileNames = new List<DirectoryInfo>();
@@ -91,6 +100,11 @@ namespace ProfiseeDevUtils.Commands
                     .Title("Select Repo to build")
                     .AddChoices(fileNames.Select(x => x.Name))
                 );
+
+            return new CakeHost()
+                        .UseContext<BuildContext>()
+                        .UseLifetime<BuildLifetime>()
+                        .Run(args);
         }
     }
 }
