@@ -33,12 +33,12 @@ namespace ProfiseeDevUtils.Commands
 
         public Command envVars = new Command("envVars", "sets the environment variables for profisee")
         {
-            new Option<bool?>( new[] { "-q", "--quiet" }, "Only Output is errors, if any" ),
+            new Option<bool?>( new[] { "-q", "--quiet" }, "Only output is errors, if any" ),
         };
 
         public Command init = new Command("init", "Initiates a new Developer Instance")
         {
-
+            new Option<bool?>( new[] { "-q", "--quiet" }, "Only output minimal info" ),
         };
 
         public Command git = new Command("git", "Perform Git operations on a project")
@@ -53,7 +53,7 @@ namespace ProfiseeDevUtils.Commands
             build.Handler = CommandHandler.Create<string?, string?, string?, string?, bool?, bool?, bool?, IConsole>(HandleBuild);
             config.Handler = CommandHandler.Create<bool?, IConsole>(HandleConfig);
             envVars.Handler = CommandHandler.Create<bool?, IConsole>(HandleEnvVars);
-            init.Handler = CommandHandler.Create<IConsole>(HandleInit);
+            init.Handler = CommandHandler.Create<bool?, IConsole>(HandleInit);
             git.Handler = CommandHandler.Create<string, string, string, IConsole>(HandleGit);
         }
 
@@ -78,9 +78,18 @@ namespace ProfiseeDevUtils.Commands
             new Git().Act(action, repo, branch);
         }
 
-        private void HandleInit(IConsole console)
+        private void HandleInit(bool? quiet, IConsole console)
         {
-            console.WriteLine("not implemented guy!!!");
+            console.WriteLine("Initializing new dev box...");
+            var envVariables = new EnvironmentVariables(quiet);
+            envVariables.CreateCustomVarsFile();
+
+            envVariables.SetAll();
+
+            new Git().Clone(string.Empty, string.Empty);
+
+            console.WriteLine("Finished setting up new dev box");
+            console.WriteLine("Happy coding!!");
         }
 
         private void HandleConfig(bool? arg1, IConsole console)

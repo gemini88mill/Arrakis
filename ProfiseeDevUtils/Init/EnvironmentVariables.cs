@@ -50,9 +50,23 @@ namespace ProfiseeDevUtils.Init
             { "ServerRESTUrl", "http://127.0.0.1/profisee/rest"},
         };
 
-        public EnvironmentVariables(bool? quiet)
+        public EnvironmentVariables(bool? quiet = null)
         {
             this.quiet = quiet ?? false;
+        }
+
+        public void CreateCustomVarsFile()
+        {
+            var customVarsFilePath = this.getCustomVarsFilePath();
+            if (File.Exists(customVarsFilePath))
+            {
+                return;
+            }
+
+            this.log($"Creating custom vars file at {customVarsFilePath}");
+            var machineVars = new { ServerRESTUrl = $"https://{Environment.MachineName}.corp.profisee.com/Profisee/rest/" };
+            string json = JsonConvert.SerializeObject(machineVars, Formatting.Indented);
+            File.WriteAllText(customVarsFilePath, json);
         }
 
         /// <summary>
@@ -60,8 +74,8 @@ namespace ProfiseeDevUtils.Init
         /// </summary>
         public void SetAll()
         {
-            string projectSourcePath = ProjectSourcePath.Value;
-            var customVars = this.ParseCustomVars(@$"{projectSourcePath}\local\customVars.json");
+            var customVarsFilePath = this.getCustomVarsFilePath();
+            var customVars = this.ParseCustomVars(customVarsFilePath);
 
             foreach(var customVar in customVars)
             {
@@ -136,6 +150,12 @@ namespace ProfiseeDevUtils.Init
             if (this.quiet) return;
 
             Console.WriteLine(message);
+        }
+
+        private string getCustomVarsFilePath()
+        {
+            string projectSourcePath = ProjectSourcePath.Value;
+            return Path.Combine(projectSourcePath, "local", "customVars.json");
         }
     }
 }
