@@ -35,19 +35,19 @@ namespace ProfiseeDevUtils.Commands
 
         public Command envVars = new Command("envVars", "sets the environment variables for profisee")
         {
-            new Option<bool?>( new[] { "-q", "--quiet" }, "Only Output is errors, if any" ),
+            new Option<bool?>( new[] { "-q", "--quiet" }, "Only output is errors, if any" ),
         };
 
         public Command init = new Command("init", "Initiates a new Developer Instance")
         {
-
+            new Option<bool?>( new[] { "-q", "--quiet" }, "Only output minimal info" ),
         };
 
         public Command git = new Command("git", "Perform Git operations on a project")
         {
-            new Argument<string>("action", "type of action (push, pull, merge...)"),
-            new Argument<string>("repo", "repo to perform operation on"),
-            new Argument<string>("branch", "branch to perform git operation on"),
+            new Argument<string>("action", "type of action (clone, status, push, pull, merge...)"),
+            new Option<string>(new[] { "-r", "--repo" }, "repo to perform operation on"),
+            new Option<string>(new[] { "-b", "--branch" }, "branch to perform git operation on"),
         };
 
         public ProfiseeCommands()
@@ -55,18 +55,44 @@ namespace ProfiseeDevUtils.Commands
             build.Handler = CommandHandler.Create<string?, string?, string?, string?, bool?, bool?, bool?, IConsole>(HandleBuildAsync);
             config.Handler = CommandHandler.Create<bool?, IConsole>(HandleConfig);
             envVars.Handler = CommandHandler.Create<bool?, IConsole>(HandleEnvVars);
-            init.Handler = CommandHandler.Create<IConsole>(HandleInit);
+            init.Handler = CommandHandler.Create<bool?, IConsole>(HandleInit);
             git.Handler = CommandHandler.Create<string, string, string, IConsole>(HandleGit);
         }
 
-        private void HandleGit(string arg1, string arg2, string arg3, IConsole console)
+        private void HandleGit(string action, string repo, string branch, IConsole console)
         {
-            console.WriteLine("not implemented");
+            if (string.IsNullOrEmpty(repo))
+            { 
+                var gitRepoRoot = new EnvironmentVariables(true).GetEnvVar("gitRepos") ?? @"C:\DevOps\Repos";
+                var getgits = Directory.GetDirectories(gitRepoRoot, ".git", SearchOption.AllDirectories);
+                getgits = getgits.Prepend("All").ToArray();
+                var selectedRepo = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title($"Select Repo to run 'git {action}' on")
+                        .AddChoices(getgits)
+                    );
+                repo = selectedRepo.Replace(".git", "").Replace(gitRepoRoot, "").Trim('\\');
+                if (repo == "All")
+                {
+                    repo = string.Empty;
+                }
+            }
+            new Git().Act(action, repo, branch);
         }
 
-        private void HandleInit(IConsole console)
+        private void HandleInit(bool? quiet, IConsole console)
         {
-            console.WriteLine("not implemented guy!!!");
+            console.WriteLine("Initializing new dev box...");
+            var envVariables = new EnvironmentVariables(quiet);
+            envVariables.CreateCustomVarsFile();
+
+            envVariables.SetAllAsync().Wait();
+
+            new Git().Act("clone", string.Empty, string.Empty);
+
+            console.WriteLine("Finished setting up new dev box");
+            AnsiConsole.Markup("You [bold yellow]should[/] close this window and reopen to get the latest variables");
+            console.WriteLine("Happy coding!!");
         }
 
         private void HandleConfig(bool? arg1, IConsole console)
@@ -77,8 +103,9 @@ namespace ProfiseeDevUtils.Commands
         private void HandleEnvVars(bool? quiet, IConsole console)
         {
             console.WriteLine("Setting environment variables");
-            new EnvironmentVariables(quiet).SetAll();
+            new EnvironmentVariables(quiet).SetAllAsync().Wait();
             console.WriteLine("Environment variables set!");
+            AnsiConsole.Markup("You [bold yellow]should[/] close this window and reopen to get the latest variables");
         }
 
         private async Task<int> HandleBuildAsync(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)

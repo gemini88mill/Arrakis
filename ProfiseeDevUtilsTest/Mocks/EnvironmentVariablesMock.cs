@@ -1,6 +1,8 @@
 ﻿using ProfiseeDevUtils.Init;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProfiseeDevUtilsTest.Mocks
 {
@@ -12,7 +14,7 @@ namespace ProfiseeDevUtilsTest.Mocks
         {
         }
 
-        public override void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget envVarTarget)
+        public override async Task SetEnvironmentVariable(string variable, string value, ProgressTask task)
         {
             this.envVars[variable] = value;
         }
