@@ -16,7 +16,7 @@ namespace ProfiseeDevUtilsTest
         [Test]
         public void EnvironmentVariables_Set_SetsEnvVars()
         {            
-            this.environmentVariablesMock.SetAll();
+            this.environmentVariablesMock.SetAllAsync().Wait();
 
             var envVars = this.environmentVariablesMock.GetEnvironmentVariables();
             foreach (var envVar in envVars)

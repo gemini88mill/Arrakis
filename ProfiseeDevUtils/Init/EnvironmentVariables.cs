@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Spectre.Console;
 
 namespace ProfiseeDevUtils.Init
 {
@@ -60,6 +61,7 @@ namespace ProfiseeDevUtils.Init
             var customVarsFilePath = this.getCustomVarsFilePath();
             if (File.Exists(customVarsFilePath))
             {
+                this.log($"Custom vars file already exists at {customVarsFilePath}. Skipping creation.");
                 return;
             }
 
@@ -72,7 +74,7 @@ namespace ProfiseeDevUtils.Init
         /// <summary>
         /// Sets the environment variables
         /// </summary>
-        public void SetAll()
+        public async Task SetAllAsync()
         {
             var customVarsFilePath = this.getCustomVarsFilePath();
             var customVars = this.ParseCustomVars(customVarsFilePath);
@@ -88,10 +90,27 @@ namespace ProfiseeDevUtils.Init
                 this.envVars[customVar.Key] = customVar.Value;
             }
 
-            foreach(var envVar in this.envVars)
-            {
-                this.SetEnvironmentVariable(envVar.Key, envVar.Value, EnvironmentVariableTarget.User);
-            }
+            await AnsiConsole.Progress()
+                .Columns(new ProgressColumn[]
+                {
+                    new TaskDescriptionColumn(),
+                    new ProgressBarColumn(),
+                    new PercentageColumn(),
+                    new SpinnerColumn(),
+                })
+                .StartAsync(async ctx =>
+                {
+                    var task = ctx.AddTask("Set env vars", new ProgressTaskSettings
+                    {
+                        AutoStart = true,
+                        MaxValue = this.envVars.Count
+                    });
+                    await Task.WhenAll(this.envVars.Select(async envVar =>
+                    {
+                        await this.SetEnvironmentVariable(envVar.Key, envVar.Value, task);
+                    }));
+                    
+                });
         }
 
         public Dictionary<string, string> ParseCustomVars(string file)
@@ -139,10 +158,15 @@ namespace ProfiseeDevUtils.Init
             return Environment.GetEnvironmentVariable(variable);
         }
 
-        public virtual void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget envVarTarget)
+        public virtual async Task SetEnvironmentVariable(string variable, string value, ProgressTask task)
         {
-            this.log($"Setting {variable} to {value}");
-            Environment.SetEnvironmentVariable(variable, value, envVarTarget);
+            await Task.Run(() =>
+            {
+                this.log($"Setting {variable} to {value}");
+                Environment.SetEnvironmentVariable(variable, value, EnvironmentVariableTarget.Process);
+                Environment.SetEnvironmentVariable(variable, value, EnvironmentVariableTarget.User);
+                task.Increment(1);
+            });
         }
 
         private void log(string message)

@@ -84,11 +84,12 @@ namespace ProfiseeDevUtils.Commands
             var envVariables = new EnvironmentVariables(quiet);
             envVariables.CreateCustomVarsFile();
 
-            envVariables.SetAll();
+            envVariables.SetAllAsync().Wait();
 
-            new Git().Clone(string.Empty, string.Empty);
+            new Git().Act("clone", string.Empty, string.Empty);
 
             console.WriteLine("Finished setting up new dev box");
+            AnsiConsole.Markup("You [bold yellow]should[/] close this window and reopen to get the latest variables");
             console.WriteLine("Happy coding!!");
         }
 
@@ -100,8 +101,9 @@ namespace ProfiseeDevUtils.Commands
         private void HandleEnvVars(bool? quiet, IConsole console)
         {
             console.WriteLine("Setting environment variables");
-            new EnvironmentVariables(quiet).SetAll();
+            new EnvironmentVariables(quiet).SetAllAsync().Wait();
             console.WriteLine("Environment variables set!");
+            AnsiConsole.Markup("You [bold yellow]should[/] close this window and reopen to get the latest variables");
         }
 
         private void HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
