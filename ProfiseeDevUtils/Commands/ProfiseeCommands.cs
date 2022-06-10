@@ -52,7 +52,7 @@ namespace ProfiseeDevUtils.Commands
 
         public ProfiseeCommands()
         {
-            build.Handler = CommandHandler.Create<string?, string?, string?, string?, bool?, bool?, bool?, IConsole>(HandleBuildAsync);
+            build.Handler = CommandHandler.Create<string?, /*string?, string?, string?,*/ bool?, bool?, bool?, IConsole>(HandleBuildAsync);
             config.Handler = CommandHandler.Create<bool?, IConsole>(HandleConfig);
             envVars.Handler = CommandHandler.Create<bool?, IConsole>(HandleEnvVars);
             init.Handler = CommandHandler.Create<bool?, IConsole>(HandleInit);
@@ -141,7 +141,7 @@ namespace ProfiseeDevUtils.Commands
                 .Run(new[]
                 {
                     $"--rootPath={new DirectoryInfo(repo).Name}",
-                    $"--logLevel={((bool)quiet ? 0 : 2)}",
+                    $"--logLevel={((quiet ?? false) ? 0 : 2)}",
                     $"--slnPath={repo}",
                 });
         }

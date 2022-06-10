@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Cake.Common.Diagnostics;
 using Cake.Git;
 using Cake.Common.Tools.MSBuild;
+using Cake.Common.Tools.DotNetCore;
 
 namespace ProfiseeDevUtils.Build
 {
@@ -26,8 +27,11 @@ namespace ProfiseeDevUtils.Build
         public string solutionFullPath { get; set; }
 
         public Verbosity LogLevel { get; set; }
+        public DotNetVerbosity DnVerbosity { get; set; }
 
         public FileInfo fileInfo { get; set; }
+
+        public Utils utils = new Utils();
 
         public BuildContext(ICakeContext context)
             : base(context)
@@ -39,6 +43,7 @@ namespace ProfiseeDevUtils.Build
 
             MsBuildConfiguration = context.Argument("configuration", "Debug");
             LogLevel = context.Argument("LogLevel", Verbosity.Normal);
+            DnVerbosity = context.Argument("LogLevel", DotNetVerbosity.Normal);
         }
 
         [TaskName("Clean")]
@@ -46,13 +51,14 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                Console.ReadLine();
-                //watch out of bin on mode modules...
-                context.CleanDirectories(context.rootPath + "/**/bin");
-                if(context.LogLevel < Verbosity.Normal)
+                if (context.LogLevel < Verbosity.Normal)
                 {
                     context.QuietVerbosity();
                 }
+                //watch out of bin on node modules...
+                context.CleanDirectories(context.rootPath + "/**/bin");
+
+                
             }
         }
 
@@ -66,7 +72,7 @@ namespace ProfiseeDevUtils.Build
                 {
                     context.MSBuild(context.fileInfo.FullName, new MSBuildSettings
                     {
-                        Verbosity = Verbosity.Normal,
+                        Verbosity = context.LogLevel,
                         Configuration = "Debug"
                     });
                 }
@@ -75,7 +81,7 @@ namespace ProfiseeDevUtils.Build
                     context.DotNetBuild(context.solutionFullPath, new DotNetBuildSettings
                     {
                         Configuration = context.MsBuildConfiguration,
-                        Verbosity = DotNetVerbosity.Normal
+                        Verbosity = context.DnVerbosity
                     });
                 }
             }
@@ -93,8 +99,18 @@ namespace ProfiseeDevUtils.Build
                 {
                     Configuration = context.MsBuildConfiguration,
                     NoBuild = true,
-                    Verbosity = DotNetVerbosity.Quiet
+                    Verbosity = context.DnVerbosity
                 });
+            }
+        }
+
+        [TaskName("Publish")]
+        [IsDependentOn(typeof(BuildTask))]
+        public sealed class PublishTask : FrostingTask<BuildContext>
+        {
+            public override void Run(BuildContext context)
+            {
+                context.DotNetPublish(context.fileInfo.FullName);
             }
         }
 
@@ -124,9 +140,8 @@ namespace ProfiseeDevUtils.Build
             public override void Setup(BuildContext context)
             {
                 context.DiagnosticVerbosity();
-                //new Utils().TurnOffService("W3SVC");
-                //new Utils().TurnOnService("W3SVC");
                 new Utils().TurnOffService("Profisee 22.2.0 (Profisee)");
+                new Utils().TurnOffService("W3SVC");
             }
 
             public override void Teardown(BuildContext context, ITeardownContext info)

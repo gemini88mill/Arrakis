@@ -1,6 +1,8 @@
-﻿using ProfiseeDevUtils.Infrastructure;
+﻿using Cake.Common.Diagnostics;
+using ProfiseeDevUtils.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -49,6 +51,7 @@ namespace ProfiseeDevUtils.Build
         }
 
         public string? GetFolderByFileName(string root, string fileName) => Directory.GetFiles(root, $"{fileName}.*", SearchOption.AllDirectories).FirstOrDefault();
+
 
         public List<string> GetDefaultSlns(string root)
         {
