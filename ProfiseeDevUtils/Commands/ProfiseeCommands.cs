@@ -80,21 +80,25 @@ namespace ProfiseeDevUtils.Commands
 
         private int HandleBuild(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
         {
-            var root = @"C:\DevOps\Repos";
+            var root = @"C:\DevOps\Repos\rest-api";
             var path = new Utils().GetFolderByFileName(@"C:\DevOps\Repos", name);
-            var getgits = Directory.GetDirectories(@"C:\DevOps\Repos", ".git", SearchOption.AllDirectories);
+            var slns = new Utils().GetFilesByType(@"C:\DevOps\Repos", "sln");
+            slns.Union(new[] { "ALL" });
             var repos = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Select Repo to build")
-                    .AddChoices(getgits)
+                    .AddChoices(slns)
                 );
+
+            
 
             return new CakeHost()
                         .UseContext<BuildContext>()
                         .UseLifetime<BuildLifetime>()
                         .Run(new[]
                         {
-                            $"--rootPath={root}"
+                            $"--rootPath={root}",
+                            $"--logLevel={0}"
                         });
         }
     }

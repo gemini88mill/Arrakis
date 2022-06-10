@@ -23,11 +23,14 @@ namespace ProfiseeDevUtils.Build
 
         public string rootPath { get; set; }
 
+        public Verbosity LogLevel { get; set; }
+
         public BuildContext(ICakeContext context)
             : base(context)
         {
             MsBuildConfiguration = context.Argument("configuration", "Debug");
-            rootPath = context.Argument("path", @"C:\DevOps\Repos\rest-api");
+            rootPath = context.Argument("rootPath", @"C:\DevOps\Repos\rest-api");
+            LogLevel = context.Argument("LogLevel", Verbosity.Normal);
         }
 
         [TaskName("Clean")]
@@ -37,6 +40,10 @@ namespace ProfiseeDevUtils.Build
             {
                 //watch out of bin on mode modules...
                 context.CleanDirectories(context.rootPath + "/**/bin");
+                if(context.LogLevel < Verbosity.Normal)
+                {
+                    context.QuietVerbosity();
+                }
             }
         }
 
@@ -46,11 +53,12 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                var slnFullPath = Directory.GetFiles(context.rootPath, "sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
-
+                var slnFullPath = Directory.GetFiles(context.rootPath, "*.sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
+                var level = context.LogLevel < Verbosity.Normal ? 0 : 1;
                 context.DotNetBuild(slnFullPath, new DotNetBuildSettings
                 {
                     Configuration = context.MsBuildConfiguration,
+                    Verbosity = level == 0 ? DotNetVerbosity.Quiet : DotNetVerbosity.Normal
                 });
             }
         }
@@ -67,6 +75,7 @@ namespace ProfiseeDevUtils.Build
                 {
                     Configuration = context.MsBuildConfiguration,
                     NoBuild = true,
+                    Verbosity = DotNetVerbosity.Quiet
                 });
             }
         }
