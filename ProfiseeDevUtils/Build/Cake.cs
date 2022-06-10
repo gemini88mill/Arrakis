@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cake.Common.Diagnostics;
 using Cake.Git;
+using Cake.Common.Tools.MSBuild;
 
 namespace ProfiseeDevUtils.Build
 {
@@ -61,13 +62,22 @@ namespace ProfiseeDevUtils.Build
         {
             public override void Run(BuildContext context)
             {
-                var slnFullPath = Directory.GetFiles(context.rootPath, "*.sln", SearchOption.TopDirectoryOnly).FirstOrDefault();
-                var level = context.LogLevel < Verbosity.Normal ? 0 : 1;
-                context.DotNetBuild(context.solutionFullPath, new DotNetBuildSettings
+                if(context.fileInfo.Name == "ProfiseePlatform")
                 {
-                    Configuration = context.MsBuildConfiguration,
-                    Verbosity = level == 0 ? DotNetVerbosity.Quiet : DotNetVerbosity.Normal
-                });
+                    context.MSBuild(context.fileInfo.FullName, new MSBuildSettings
+                    {
+                        Verbosity = Verbosity.Normal,
+                        Configuration = "Debug"
+                    });
+                }
+                else
+                {
+                    context.DotNetBuild(context.solutionFullPath, new DotNetBuildSettings
+                    {
+                        Configuration = context.MsBuildConfiguration,
+                        Verbosity = DotNetVerbosity.Normal
+                    });
+                }
             }
         }
 
