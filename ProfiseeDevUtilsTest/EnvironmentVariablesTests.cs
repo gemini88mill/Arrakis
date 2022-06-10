@@ -6,12 +6,11 @@ namespace ProfiseeDevUtilsTest
 {
     public class EnvironmentVariablesTests
     {
-        private EnvironmentVariablesMock environmentVariablesMock;
+        private EnvironmentVariablesMock environmentVariablesMock = new EnvironmentVariablesMock(false);
 
         [SetUp]
         public void Setup()
         {
-            environmentVariablesMock = new EnvironmentVariablesMock(false);
         }
 
         [Test]
