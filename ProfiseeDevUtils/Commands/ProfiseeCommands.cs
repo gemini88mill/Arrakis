@@ -19,10 +19,10 @@ namespace ProfiseeDevUtils.Commands
         public Command build = new Command("build", "builds the various projects of the Profisee Platform")
         {
             new Option<string?>(new[] {"-n", "--name"}, "Name of the project"),
-            new Option<string?>(new[] {"-s", "--select"}, "Select the name of Project"),
-            new Option<string?>(new[] {"-g", "--git"}, "get latest during build"),
-            new Option<string?>(new[] {"-d", "--data"}, "populate instance with default data (run apollo)"),
-            new Option<string?>(new[] {"-c", "--config"}, "after build config with default config settings"),
+            //new Option<string?>(new[] {"-s", "--select"}, "Select the name of Project"),
+            //new Option<string?>(new[] {"-g", "--git"}, "get latest during build"),
+            //new Option<string?>(new[] {"-d", "--data"}, "populate instance with default data (run apollo)"),
+            //new Option<string?>(new[] {"-c", "--config"}, "after build config with default config settings"),
             new Option<bool?>(new[] {"-q", "--quiet"}, "Only display if errors are present"),
             new Option<bool?>(new[] {"-l", "--log"}, "output to log"),
             new Option<bool?>(new[] {"-nu", "--nuget" }, "Restore Nuget packages along with build")
@@ -52,7 +52,7 @@ namespace ProfiseeDevUtils.Commands
 
         public ProfiseeCommands()
         {
-            build.Handler = CommandHandler.Create<string?, string?, string?, string?, bool?, bool?, bool?, IConsole>(HandleBuildAsync);
+            build.Handler = CommandHandler.Create<string?, /*string?, string?, string?,*/ bool?, bool?, bool?, IConsole>(HandleBuildAsync);
             config.Handler = CommandHandler.Create<bool?, IConsole>(HandleConfig);
             envVars.Handler = CommandHandler.Create<bool?, IConsole>(HandleEnvVars);
             init.Handler = CommandHandler.Create<bool?, IConsole>(HandleInit);
@@ -108,7 +108,7 @@ namespace ProfiseeDevUtils.Commands
             AnsiConsole.Markup("You [bold yellow]should[/] close this window and reopen to get the latest variables");
         }
 
-        private async Task<int> HandleBuildAsync(string? name, string? git, string? data, string? config, bool? quiet, bool? log, bool? nuget, IConsole console)
+        private async Task<int> HandleBuildAsync(string? name, /*string? git, string? data, string? config,*/ bool? quiet, bool? log, bool? nuget, IConsole console)
         {
             Utils utils = new Utils();
             var root = @"C:\DevOps\Repos";
@@ -136,14 +136,14 @@ namespace ProfiseeDevUtils.Commands
             //return 1;
 
             return new CakeHost()
-                        .UseContext<BuildContext>()
-                        .UseLifetime<BuildLifetime>()
-                        .Run(new[]
-                        {
-                            $"--rootPath={new DirectoryInfo(repo).Name}",
-                            $"--logLevel={0}",
-                            $"--slnPath={repo}",
-                        });
+                .UseContext<BuildContext>()
+                .UseLifetime<BuildLifetime>()
+                .Run(new[]
+                {
+                    $"--rootPath={new DirectoryInfo(repo).Name}",
+                    $"--logLevel={((quiet ?? false) ? 0 : 2)}",
+                    $"--slnPath={repo}",
+                });
         }
     }
 }
