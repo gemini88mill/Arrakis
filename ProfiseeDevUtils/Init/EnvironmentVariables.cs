@@ -103,13 +103,19 @@ namespace ProfiseeDevUtils.Init
                 })
                 .StartAsync(async ctx =>
                 {
-                    var task = ctx.AddTask("Set env vars", new ProgressTaskSettings
+                    var tasks = new List<ProgressTask>(this.envVars.Count);
+                    var singleTask = this.quiet ? ctx.AddTask("Set env vars", new ProgressTaskSettings
                     {
                         AutoStart = true,
-                        MaxValue = this.envVars.Count
-                    });
-                    await Task.WhenAll(this.envVars.Select(async envVar =>
+                        MaxValue = this.envVars.Count * 2
+                    }) : null;
+                    await Task.WhenAll(this.envVars.Select(async (envVar, i) =>
                     {
+                        var task = this.quiet ? singleTask : ctx.AddTask($"Set {envVar.Key} to {envVar.Value}", new ProgressTaskSettings
+                        {
+                            AutoStart = true,
+                            MaxValue = 2
+                        });
                         await this.SetEnvironmentVariable(envVar.Key, envVar.Value, task);
                     }));
                     
@@ -165,8 +171,8 @@ namespace ProfiseeDevUtils.Init
         {
             await Task.Run(() =>
             {
-                this.log($"Setting {variable} to {value}");
                 Environment.SetEnvironmentVariable(variable, value, EnvironmentVariableTarget.Process);
+                task.Increment(1);
                 Environment.SetEnvironmentVariable(variable, value, EnvironmentVariableTarget.User);
                 task.Increment(1);
             });
