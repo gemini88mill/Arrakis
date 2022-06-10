@@ -24,7 +24,7 @@ namespace ProfiseeDevUtils
 
         public Git()
         {
-            this.RootPath = new EnvironmentVariables(false).GetEnvVar(EnvironmentVariableNames.gitRepos) ?? @"C:\DevOps\Repos";
+            this.RootPath = new EnvironmentVariables(false).gitRepos ?? @"C:\DevOps\Repos";
         }
 
         public void Act(string action, string repoName, string branch)
@@ -68,7 +68,7 @@ namespace ProfiseeDevUtils
             this.Logger.WriteLine($"cloning {gitUrl}");
             var processInfo = new ProcessStartInfo("git", $"clone {gitUrl}");
             processInfo.WorkingDirectory = repoPath;
-            Process.Start(processInfo)?.WaitForExit();
+            this.StartProcess(processInfo);
         }
 
         public void Pull(string repoName, string _)
@@ -77,7 +77,7 @@ namespace ProfiseeDevUtils
             this.Logger.WriteLine($"pulling latest for {repoName}");
             var processInfo = new ProcessStartInfo("git", "pull");
             processInfo.WorkingDirectory = repoPath;
-            Process.Start(processInfo)?.WaitForExit();
+            this.StartProcess(processInfo);
         }
 
         public void Status(string repoName, string _)
@@ -86,7 +86,7 @@ namespace ProfiseeDevUtils
             var processInfo = new ProcessStartInfo("git", "status -bs");
             processInfo.WorkingDirectory = repoPath;
             this.Logger.WriteLine($"-------- {repoName} --------");
-            Process.Start(processInfo)?.WaitForExit();
+            this.StartProcess(processInfo);
         }
 
         public string[] GetGitRepoFolders()
@@ -96,6 +96,11 @@ namespace ProfiseeDevUtils
                 );
 
             return paths.Select(p => p.Replace(this.RootPath, "").Trim('\\')).ToArray();
+        }
+
+        public virtual void StartProcess(ProcessStartInfo processStartInfo)
+        {
+            Process.Start(processStartInfo)?.WaitForExit();
         }
     }
 }

@@ -26,9 +26,7 @@ namespace ProfiseeDevUtils.Init
         {
             ProcessStartInfo procInfo = new ProcessStartInfo("dotnet", "--list-runtimes");
             procInfo.RedirectStandardOutput = true;
-            var process = Process.Start(procInfo);
-            var response = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
+            var response = StartProcess(procInfo);
 
             int count = new Regex(@$"\s{majorVersion}\.{minorVersion}\.").Matches(response).Count;
             log($"Found {count} versions of dotnet {majorVersion}.{minorVersion}");
@@ -40,6 +38,14 @@ namespace ProfiseeDevUtils.Init
             }
 
             return hasEnoughVersions;
+        }
+
+        public virtual string StartProcess(ProcessStartInfo processStartInfo)
+        {
+            var process = Process.Start(processStartInfo);
+            var response = process?.StandardOutput.ReadToEnd() ?? string.Empty;
+            process?.WaitForExit();
+            return response;
         }
 
         private void log(string message)
