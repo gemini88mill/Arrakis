@@ -6,13 +6,11 @@ namespace ProfiseeDevUtils.Init
 {
     public class PreReqs
     {
-        private readonly bool quiet;
-
-        public ILogger Logger { get; set; } = new Logger();
+        public ILogger Logger { get; set; }
 
         public PreReqs(bool? quiet)
         {
-            this.quiet = quiet ?? false;
+            this.Logger = new Logger(quiet);
         }
 
         public bool Cheq()
@@ -29,12 +27,12 @@ namespace ProfiseeDevUtils.Init
             var response = StartProcess(procInfo);
 
             int count = new Regex(@$"\s{majorVersion}\.{minorVersion}\.").Matches(response).Count;
-            log($"Found {count} versions of dotnet {majorVersion}.{minorVersion}");
+            this.Logger.Inform($"Found {count} versions of dotnet {majorVersion}.{minorVersion}");
 
             var hasEnoughVersions = count > 1;
             if (!hasEnoughVersions)
             {
-                Console.WriteLine($"You are missing one or more runtimes of dotnet {majorVersion}.{minorVersion}");
+                this.Logger.Err($"You are missing one or more runtimes of dotnet {majorVersion}.{minorVersion}");
             }
 
             return hasEnoughVersions;
@@ -46,16 +44,6 @@ namespace ProfiseeDevUtils.Init
             var response = process?.StandardOutput.ReadToEnd() ?? string.Empty;
             process?.WaitForExit();
             return response;
-        }
-
-        private void log(string message)
-        {
-            if (this.quiet)
-            {
-                return;
-            }
-
-            this.Logger.WriteLine(message);
         }
     }
 }

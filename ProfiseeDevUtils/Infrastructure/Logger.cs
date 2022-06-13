@@ -1,15 +1,44 @@
-﻿namespace ProfiseeDevUtils.Infrastructure
+﻿using Spectre.Console;
+
+namespace ProfiseeDevUtils.Infrastructure
 {
     public class Logger : ILogger
     {
-        public void Write(string message)
+        public bool Quiet { get; private set; }
+
+        public Logger(bool? quiet)
         {
-            Console.Write(message);
+            this.Quiet = quiet ?? false;
         }
 
-        public void WriteLine(string message)
+        public void Err(string message)
         {
-            Console.WriteLine(message);
+            this.WriteLine($"[bold red]{message}[/]");
+        }
+
+        public void Inform(string message)
+        {
+            if (Quiet)
+            {
+                return;
+            }
+
+            this.WriteLine(message);
+        }
+
+        public void Warn(string message)
+        {
+            if (Quiet)
+            {
+                return;
+            }
+
+            this.WriteLine($"[bold yellow]{message}[/]");
+        }
+
+        public virtual void WriteLine(string message)
+        {
+            AnsiConsole.MarkupLine(message);
         }
     }
 }

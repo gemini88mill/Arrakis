@@ -17,7 +17,7 @@ namespace ProfiseeDevUtilsTest
         public void Setup()
         {
             this.logger = Substitute.For<ILogger>();
-            this.gitMock = Substitute.For<Git>();
+            this.gitMock = Substitute.For<Git>(false);
             this.gitMock.Logger = this.logger;
         }
 
@@ -32,8 +32,8 @@ namespace ProfiseeDevUtilsTest
                 p.FileName == "git" &&
                 p.Arguments == $"clone {url}"
                 ));
-            this.logger.Received(1).WriteLine(Arg.Any<string>());
-            this.logger.Received(1).WriteLine($"cloning {url}");
+            this.logger.Received(1).Inform(Arg.Any<string>());
+            this.logger.Received(1).Inform($"cloning {url}");
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace ProfiseeDevUtilsTest
             this.gitMock.Clone(repoName, string.Empty);
 
             this.gitMock.Received(0).StartProcess(Arg.Any<ProcessStartInfo>());
-            this.logger.Received(1).WriteLine(Arg.Any<string>());
-            this.logger.Received(1).WriteLine($"Repo {repoName} has already been created at {repoPath}");
+            this.logger.Received(1).Warn(Arg.Any<string>());
+            this.logger.Received(1).Warn($"Repo {repoName} has already been created at {repoPath}");
         }
 
         [Test]
@@ -58,8 +58,8 @@ namespace ProfiseeDevUtilsTest
                p.FileName == "git" &&
                p.Arguments == $"pull"
                 ));
-            this.logger.Received(1).WriteLine(Arg.Any<string>());
-            this.logger.Received(1).WriteLine($"pulling latest for {repoName}");
+            this.logger.Received(1).Inform(Arg.Any<string>());
+            this.logger.Received(1).Inform($"pulling latest for {repoName}");
         }
 
         [Test]
@@ -72,8 +72,26 @@ namespace ProfiseeDevUtilsTest
                p.FileName == "git" &&
                p.Arguments == $"status -bs"
                 ));
-            this.logger.Received(1).WriteLine(Arg.Any<string>());
-            this.logger.Received(1).WriteLine($"-------- {repoName} --------");
+            this.logger.Received(1).Inform(Arg.Any<string>());
+            this.logger.Received(1).Inform($"-------- {repoName} --------");
+        }
+
+        [Test]
+        public void Git_SetsLoggerQuietToTrue()
+        {
+            this.gitMock = Substitute.For<Git>(true);
+            var logger = this.gitMock.Logger;
+
+            Assert.IsTrue(logger.Quiet);
+        }
+
+        [Test]
+        public void Git_SetsLoggerQuietToFalse()
+        {
+            this.gitMock = Substitute.For<Git>(false);
+            var logger = this.gitMock.Logger;
+
+            Assert.IsFalse(logger.Quiet);
         }
     }
 }

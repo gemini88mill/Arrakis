@@ -52,11 +52,12 @@ namespace ProfiseeDevUtils.Init
             { nameof(ServerRESTUrl), "http://127.0.0.1/profisee/rest"},
         };
 
-        public ILogger Logger { get; set; } = new Logger();
+        public ILogger Logger { get; set; }
 
         public EnvironmentVariables(bool? quiet = null)
         {
             this.quiet = quiet ?? false;
+            this.Logger = new Logger(this.quiet);
         }
 
         public void CreateCustomVarsFile()
@@ -64,11 +65,11 @@ namespace ProfiseeDevUtils.Init
             var customVarsFilePath = this.getCustomVarsFilePath();
             if (File.Exists(customVarsFilePath))
             {
-                this.log($"Custom vars file already exists at {customVarsFilePath}. Skipping creation.");
+                this.Logger.Inform($"Custom vars file already exists at {customVarsFilePath}. Skipping creation.");
                 return;
             }
 
-            this.log($"Creating custom vars file at {customVarsFilePath}");
+            this.Logger.Inform($"Creating custom vars file at {customVarsFilePath}");
             var machineVars = new { ServerRESTUrl = $"https://{Environment.MachineName}.corp.profisee.com/Profisee/rest/" };
             string json = JsonConvert.SerializeObject(machineVars, Formatting.Indented);
             File.WriteAllText(customVarsFilePath, json);
@@ -127,18 +128,18 @@ namespace ProfiseeDevUtils.Init
             Dictionary<string, string>? vars;
             if (!File.Exists(file))
             {
-                this.log($"No custom vars file found at {file}");
+                this.Logger.Inform($"No custom vars file found at {file}");
                 return new Dictionary<string, string>();
             }
 
-            this.log($"Reading custom vars file at {file}");
+            this.Logger.Inform($"Reading custom vars file at {file}");
             using (StreamReader r = new StreamReader(file))
             {
                 string json = r.ReadToEnd();
                 vars = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             }
 
-            this.log($"Read {vars?.Count ?? 0} custom vars");
+            this.Logger.Inform($"Read {vars?.Count ?? 0} custom vars");
             return vars ?? new Dictionary<string, string>();
         }
 
@@ -176,13 +177,6 @@ namespace ProfiseeDevUtils.Init
                 Environment.SetEnvironmentVariable(variable, value, EnvironmentVariableTarget.User);
                 task.Increment(1);
             });
-        }
-
-        private void log(string message)
-        {
-            if (this.quiet) return;
-
-            this.Logger.WriteLine(message);
         }
 
         private string getCustomVarsFilePath()

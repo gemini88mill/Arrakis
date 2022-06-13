@@ -6,7 +6,7 @@ namespace ProfiseeDevUtils
 {
     public class Git
     {
-        public ILogger Logger { get; set; } = new Logger();
+        public ILogger Logger { get; set; }
         public string RootPath { get; set; }
 
         private string[] repos =
@@ -22,9 +22,10 @@ namespace ProfiseeDevUtils
             "Workflow"
         };
 
-        public Git()
+        public Git(bool? quiet = false)
         {
             this.RootPath = new EnvironmentVariables(false).gitRepos ?? @"C:\DevOps\Repos";
+            this.Logger = new Logger(quiet);
         }
 
         public void Act(string action, string repoName, string branch)
@@ -38,7 +39,7 @@ namespace ProfiseeDevUtils
 
             if (!gitCommands.ContainsKey(action))
             {
-                this.Logger.WriteLine($"Action '{action}' not found");
+                this.Logger.Err($"Action '{action}' not found");
                 return;
             }
 
@@ -60,12 +61,12 @@ namespace ProfiseeDevUtils
             var repoPath = Path.Combine(this.RootPath, repoName);
             if (Directory.Exists(repoPath))
             {
-                this.Logger.WriteLine($"Repo {repoName} has already been created at {repoPath}");
+                this.Logger.Warn($"Repo {repoName} has already been created at {repoPath}");
                 return;
             }
 
             var gitUrl = $"https://profisee.visualstudio.com/Products/_git/{repoName}";
-            this.Logger.WriteLine($"cloning {gitUrl}");
+            this.Logger.Inform($"cloning {gitUrl}");
             var processInfo = new ProcessStartInfo("git", $"clone {gitUrl}");
             processInfo.WorkingDirectory = repoPath;
             this.StartProcess(processInfo);
@@ -74,7 +75,7 @@ namespace ProfiseeDevUtils
         public void Pull(string repoName, string _)
         {
             var repoPath = Path.Combine(this.RootPath, repoName);
-            this.Logger.WriteLine($"pulling latest for {repoName}");
+            this.Logger.Inform($"pulling latest for {repoName}");
             var processInfo = new ProcessStartInfo("git", "pull");
             processInfo.WorkingDirectory = repoPath;
             this.StartProcess(processInfo);
@@ -85,7 +86,7 @@ namespace ProfiseeDevUtils
             var repoPath = Path.Combine(this.RootPath, repoName);
             var processInfo = new ProcessStartInfo("git", "status -bs");
             processInfo.WorkingDirectory = repoPath;
-            this.Logger.WriteLine($"-------- {repoName} --------");
+            this.Logger.Inform($"-------- {repoName} --------");
             this.StartProcess(processInfo);
         }
 

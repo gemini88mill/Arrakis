@@ -25,8 +25,8 @@ namespace ProfiseeDevUtilsTest
             this.preReqsMock.StartProcess(new ProcessStartInfo()).ReturnsForAnyArgs(" 6.0.1, 6.0.1, 6.0.1, 3.1.18, 3.1.18, 3.1.18");
             var result = this.preReqsMock.Cheq();
 
-            this.logger.Received(1).WriteLine("Found 3 versions of dotnet 3.1");
-            this.logger.Received(1).WriteLine("Found 3 versions of dotnet 6.0");
+            this.logger.Received(1).Inform("Found 3 versions of dotnet 3.1");
+            this.logger.Received(1).Inform("Found 3 versions of dotnet 6.0");
             Assert.IsTrue(result);
         }
 
@@ -36,8 +36,8 @@ namespace ProfiseeDevUtilsTest
             this.preReqsMock.StartProcess(new ProcessStartInfo()).ReturnsForAnyArgs("");
             var result = this.preReqsMock.Cheq();
 
-            this.logger.Received(1).WriteLine("Found 0 versions of dotnet 3.1");
-            this.logger.Received(1).WriteLine("Found 0 versions of dotnet 6.0");
+            this.logger.Received(1).Inform("Found 0 versions of dotnet 3.1");
+            this.logger.Received(1).Inform("Found 0 versions of dotnet 6.0");
             Assert.IsFalse(result);
         }
 
@@ -47,8 +47,8 @@ namespace ProfiseeDevUtilsTest
             this.preReqsMock.StartProcess(new ProcessStartInfo()).ReturnsForAnyArgs(" 3.1.1, 3.1.1, 3.1.1,");
             var result = this.preReqsMock.Cheq();
 
-            this.logger.Received(1).WriteLine("Found 3 versions of dotnet 3.1");
-            this.logger.Received(1).WriteLine("Found 0 versions of dotnet 6.0");
+            this.logger.Received(1).Inform("Found 3 versions of dotnet 3.1");
+            this.logger.Received(1).Inform("Found 0 versions of dotnet 6.0");
             Assert.IsFalse(result);
         }
 
@@ -64,14 +64,21 @@ namespace ProfiseeDevUtilsTest
         }
 
         [Test]
-        public void PreReqTests_Cheq_Quiet_LogsLittle()
+        public void PreReqTests_SetsLoggerQuietToTrue()
         {
             this.preReqsMock = Substitute.For<PreReqs>(true);
-            this.preReqsMock.StartProcess(new ProcessStartInfo()).ReturnsForAnyArgs("");
-            var result = this.preReqsMock.Cheq();
+            var logger = this.preReqsMock.Logger;
 
-            this.logger.Received(0).WriteLine(Arg.Any<string>());
-            Assert.IsFalse(result);
+            Assert.IsTrue(logger.Quiet);
+        }
+
+        [Test]
+        public void PreReqTests_SetsLoggerQuietToFalse()
+        {
+            this.preReqsMock = Substitute.For<PreReqs>(false);
+            var logger = this.preReqsMock.Logger;
+
+            Assert.IsFalse(logger.Quiet);
         }
     }
 }

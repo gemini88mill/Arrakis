@@ -2,7 +2,9 @@
 {
     public interface ILogger
     {
-        void WriteLine(string message);
-        void Write(string message);
+        bool Quiet { get; }
+        void Inform(string message);
+        void Warn(string message);
+        void Err(string message);
     }
 }
