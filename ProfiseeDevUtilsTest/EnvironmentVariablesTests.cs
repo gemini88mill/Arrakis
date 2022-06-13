@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using ProfiseeDevUtils.Init;
 using ProfiseeDevUtilsTest.Mocks;
 using System;
 
@@ -15,7 +16,7 @@ namespace ProfiseeDevUtilsTest
 
         [Test]
         public void EnvironmentVariables_Set_SetsEnvVars()
-        {            
+        {
             this.environmentVariablesMock.SetAllAsync().Wait();
 
             var envVars = this.environmentVariablesMock.GetEnvironmentVariables();
