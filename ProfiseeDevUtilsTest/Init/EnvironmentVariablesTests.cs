@@ -1,9 +1,8 @@
 using NUnit.Framework;
-using ProfiseeDevUtils.Init;
 using ProfiseeDevUtilsTest.Mocks;
 using System;
 
-namespace ProfiseeDevUtilsTest
+namespace ProfiseeDevUtilsTest.Init
 {
     public class EnvironmentVariablesTests
     {

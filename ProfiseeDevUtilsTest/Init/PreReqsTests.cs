@@ -4,7 +4,7 @@ using ProfiseeDevUtils.Infrastructure;
 using ProfiseeDevUtils.Init;
 using System.Diagnostics;
 
-namespace ProfiseeDevUtilsTest
+namespace ProfiseeDevUtilsTest.Init
 {
     internal class PreReqsTests
     {
