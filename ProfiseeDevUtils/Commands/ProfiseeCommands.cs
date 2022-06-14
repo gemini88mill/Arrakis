@@ -66,31 +66,7 @@ namespace ProfiseeDevUtils.Commands
             init.Handler = CommandHandler.Create<bool?, IConsole>(HandleInit);
             git.Handler = CommandHandler.Create<string, string, string, IConsole>(HandleGit);
             iis.Handler = CommandHandler.Create<string, IConsole>(HandleIIS);
-            profisee.Handler = CommandHandler.Create<string, bool?, IConsole>(HandleProfisee);
-        }
-
-        private void HandleProfisee(string action, bool? quiet, IConsole console)
-        {
-            var sanitizedAction = action.ToLower();
-            var winService = new WinService(quiet);
-            var actions = new Dictionary<string, Action<string>>
-            {
-                { "start", winService.Start },
-                { "stop", winService.Stop },
-            };
-
-            if (!actions.ContainsKey(sanitizedAction))
-            {
-                this.Logger.Err($"Action {action} not found in available actions. Please use one of the following:");
-                foreach (var a in actions.Keys)
-                {
-                    this.Logger.Err(a);
-                }
-                return;
-            }
-
-            var serviceName = new EnvironmentVariables(quiet).MaestroSvc;
-            actions[sanitizedAction](serviceName);
+            profisee.Handler = CommandHandler.Create<string, bool?>(Profisee.Service.Act);
         }
 
         private void HandleIIS(string action, IConsole console)
