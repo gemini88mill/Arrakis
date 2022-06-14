@@ -70,6 +70,7 @@ namespace ProfiseeDevUtils.Init
             }
 
             this.Logger.Inform($"Creating custom vars file at {customVarsFilePath}");
+            Directory.CreateDirectory(this.getCustomVarsFileDirectory());
             var machineVars = new { ServerRESTUrl = $"https://{Environment.MachineName}.corp.profisee.com/Profisee/rest/" };
             string json = JsonConvert.SerializeObject(machineVars, Formatting.Indented);
             File.WriteAllText(customVarsFilePath, json);
@@ -181,8 +182,13 @@ namespace ProfiseeDevUtils.Init
 
         private string getCustomVarsFilePath()
         {
+            return Path.Combine(this.getCustomVarsFileDirectory(), "customVars.json");
+        }
+
+        private string getCustomVarsFileDirectory()
+        {
             string projectSourcePath = ProjectSourcePath.Value;
-            return Path.Combine(projectSourcePath, "local", "customVars.json");
+            return Path.Combine(projectSourcePath, "local");
         }
 
         public string AttachmentRepositoryLocation
