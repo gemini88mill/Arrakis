@@ -1,20 +1,15 @@
 ﻿using Cake.Common;
+using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
 using Cake.Common.Tools.DotNet.Build;
 using Cake.Common.Tools.DotNet.Test;
+using Cake.Common.Tools.MSBuild;
 using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cake.Common.Diagnostics;
 using Cake.Git;
-using Cake.Common.Tools.MSBuild;
-using Cake.Common.Tools.DotNetCore;
+using ProfiseeDevUtils.Init;
 using Spectre.Console;
 
 namespace ProfiseeDevUtils.Build
@@ -34,10 +29,13 @@ namespace ProfiseeDevUtils.Build
 
         public Utils utils = new Utils();
 
+        public EnvironmentVariables EnvVars { get; private set; }
+
         public BuildContext(ICakeContext context)
             : base(context)
         {
-            solutionFullPath = context.Argument("slnPath", @"C:\DevOps\Repos\rest-api\Gateway.Api.sln");
+            this.EnvVars = new EnvironmentVariables();
+            solutionFullPath = context.Argument("slnPath", @$"{this.EnvVars.gitRepos}\rest-api\Gateway.Api.sln");
             fileInfo = new FileInfo(solutionFullPath);
 
             rootPath = fileInfo.DirectoryName;
@@ -148,14 +146,14 @@ namespace ProfiseeDevUtils.Build
             public override void Setup(BuildContext context)
             {
                 context.DiagnosticVerbosity();
-                new Utils().TurnOffService("Profisee 22.2.0 (Profisee)");
                 new Utils().TurnOffService("W3SVC");
                 new Utils().TurnOnService("W3SVC");
+                new Utils().TurnOffService(context.EnvVars.MaestroSvc);
             }
 
             public override void Teardown(BuildContext context, ITeardownContext info)
             {
-                new Utils().TurnOnService("Profisee 22.2.0 (Profisee)");
+                new Utils().TurnOnService(context.EnvVars.MaestroSvc);
 
             }
         }

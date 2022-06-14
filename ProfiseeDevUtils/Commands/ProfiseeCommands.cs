@@ -119,7 +119,8 @@ namespace ProfiseeDevUtils.Commands
         private async Task<int> HandleBuildAsync(string? name, /*string? git, string? data, string? config,*/ bool? quiet, bool? log, bool? nuget, IConsole console)
         {
             Utils utils = new Utils();
-            var root = @"C:\DevOps\Repos";
+            var envVars = new EnvironmentVariables(quiet);
+            var root = envVars.gitRepos;
             var slns = new List<string>() { "All Repos" };
             string repo = "";
 

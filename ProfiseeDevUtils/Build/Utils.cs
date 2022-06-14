@@ -1,12 +1,6 @@
-﻿using Cake.Common.Diagnostics;
-using ProfiseeDevUtils.Infrastructure;
-using System;
-using System.Collections.Generic;
+﻿using ProfiseeDevUtils.Infrastructure;
 using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProfiseeDevUtils.Build
 {

@@ -163,9 +163,9 @@ namespace ProfiseeDevUtils.Init
             this.envVars[nameof(PathToUtilitiesExe)] = @$"{this.envVars[nameof(UtilPath)]}\Profisee.MasterDataMaestro.Utilities.exe";
         }
 
-        public virtual string? GetEnvVar(string variable)
+        public virtual string GetEnvVar(string variable)
         {
-            return Environment.GetEnvironmentVariable(variable);
+            return Environment.GetEnvironmentVariable(variable) ?? string.Empty;
         }
 
         public virtual async Task SetEnvironmentVariable(string variable, string value, ProgressTask task)
@@ -185,260 +185,260 @@ namespace ProfiseeDevUtils.Init
             return Path.Combine(projectSourcePath, "local", "customVars.json");
         }
 
-        public string? AttachmentRepositoryLocation
+        public string AttachmentRepositoryLocation
         {
             get { return this.GetEnvVar(nameof(AttachmentRepositoryLocation)); }
         }
-        public string? AttachmentRepositoryLogonType
+        public string AttachmentRepositoryLogonType
         {
             get { return this.GetEnvVar(nameof(AttachmentRepositoryLogonType)); }
         }
 
-        public string? AttachmentRepositoryUserName
+        public string AttachmentRepositoryUserName
         {
             get { return this.GetEnvVar(nameof(AttachmentRepositoryUserName)); }
         }
 
-        public string? AttachmentRepositoryUserPassword
+        public string AttachmentRepositoryUserPassword
         {
             get { return this.GetEnvVar(nameof(AttachmentRepositoryUserPassword)); }
         }
 
-        public string? MaestroWebAppName
+        public string MaestroWebAppName
         {
             get { return this.GetEnvVar(nameof(MaestroWebAppName)); }
         }
 
-        public string? MaestroAppPoolName
+        public string MaestroAppPoolName
         {
             get { return this.GetEnvVar(nameof(MaestroAppPoolName)); }
         }
 
-        public string? MaestroAppPoolUserName
+        public string MaestroAppPoolUserName
         {
             get { return this.GetEnvVar(nameof(MaestroAppPoolUserName)); }
         }
 
-        public string? MaestroAppPoolUserPassword
+        public string MaestroAppPoolUserPassword
         {
             get { return this.GetEnvVar(nameof(MaestroAppPoolUserPassword)); }
         }
 
-        public string? MaestroDb
+        public string MaestroDb
         {
             get { return this.GetEnvVar(nameof(MaestroDb)); }
         }
 
-        public string? MaestroServicePort
+        public string MaestroServicePort
         {
             get { return this.GetEnvVar(nameof(MaestroServicePort)); }
         }
 
-        public string? MaestroServiceUserName
+        public string MaestroServiceUserName
         {
             get { return this.GetEnvVar(nameof(MaestroServiceUserName)); }
         }
 
-        public string? MaestroServiceUserPassword
+        public string MaestroServiceUserPassword
         {
             get { return this.GetEnvVar(nameof(MaestroServiceUserPassword)); }
         }
 
-        public string? MaestroVersion
+        public string MaestroVersion
         {
             get { return this.GetEnvVar(nameof(MaestroVersion)); }
         }
 
-        public string? MsBuildUtil
+        public string MsBuildUtil
         {
             get { return this.GetEnvVar(nameof(MsBuildUtil)); }
         }
 
-        public string? MsTestUtil
+        public string MsTestUtil
         {
             get { return this.GetEnvVar(nameof(MsTestUtil)); }
         }
 
-        public string? SetupTestCategory
+        public string SetupTestCategory
         {
             get { return this.GetEnvVar(nameof(SetupTestCategory)); }
         }
 
-        public string? SqlDataPath
+        public string SqlDataPath
         {
             get { return this.GetEnvVar(nameof(SqlDataPath)); }
         }
 
-        public string? SqlServer
+        public string SqlServer
         {
             get { return this.GetEnvVar(nameof(SqlServer)); }
         }
 
-        public string? SqlUserName
+        public string SqlUserName
         {
             get { return this.GetEnvVar(nameof(SqlUserName)); }
         }
 
-        public string? SqlUserPassword
+        public string SqlUserPassword
         {
             get { return this.GetEnvVar(nameof(SqlUserPassword)); }
         }
 
-        public string? TfsDrive
+        public string TfsDrive
         {
             get { return this.GetEnvVar(nameof(TfsDrive)); }
         }
 
-        public string? TfsGetSource
+        public string TfsGetSource
         {
             get { return this.GetEnvVar(nameof(TfsGetSource)); }
         }
 
-        public string? TfsUtil
+        public string TfsUtil
         {
             get { return this.GetEnvVar(nameof(TfsUtil)); }
         }
 
-        public string? UseHttps
+        public string UseHttps
         {
             get { return this.GetEnvVar(nameof(UseHttps)); }
         }
 
-        public string? UseSeparateDatabases
+        public string UseSeparateDatabases
         {
             get { return this.GetEnvVar(nameof(UseSeparateDatabases)); }
         }
 
-        public string? UseWindowsAuthentication
+        public string UseWindowsAuthentication
         {
             get { return this.GetEnvVar(nameof(UseWindowsAuthentication)); }
         }
 
-        public string? WebSiteName
+        public string WebSiteName
         {
             get { return this.GetEnvVar(nameof(WebSiteName)); }
         }
 
 
         // automation settings
-        public string? CrmDatabaseName
+        public string CrmDatabaseName
         {
             get { return this.GetEnvVar(nameof(CrmDatabaseName)); }
         }
 
-        public string? CrmEventingDatabaseName
+        public string CrmEventingDatabaseName
         {
             get { return this.GetEnvVar(nameof(CrmEventingDatabaseName)); }
         }
 
-        public string? CrmSqlServer
+        public string CrmSqlServer
         {
             get { return this.GetEnvVar(nameof(CrmSqlServer)); }
         }
 
-        public string? PathToFederation
+        public string PathToFederation
         {
             get { return this.GetEnvVar(nameof(PathToFederation)); }
         }
 
-        public string? RunAsUserName
+        public string RunAsUserName
         {
             get { return this.GetEnvVar(nameof(RunAsUserName)); }
         }
 
-        public string? ServerRESTUrl
+        public string ServerRESTUrl
         {
             get { return this.GetEnvVar(nameof(ServerRESTUrl)); }
         }
 
-        public string? ServerRESTVersion
+        public string ServerRESTVersion
         {
             get { return this.GetEnvVar(nameof(ServerRESTVersion)); }
         }
 
-        public string? ServerURL
+        public string ServerURL
         {
             get { return this.GetEnvVar(nameof(ServerURL)); }
         }
 
-        public string? SqlEventingDatabaseName
+        public string SqlEventingDatabaseName
         {
             get { return this.GetEnvVar(nameof(SqlEventingDatabaseName)); }
         }
 
-        public string? SqlConnectorSqlServer
+        public string SqlConnectorSqlServer
         {
             get { return this.GetEnvVar(nameof(SqlConnectorSqlServer)); }
         }
 
 
         // derived variables
-        public string? AutomationFolder
+        public string AutomationFolder
         {
             get { return this.GetEnvVar(nameof(AutomationFolder)); }
         }
 
-        public string? BatchFileLocation
+        public string BatchFileLocation
         {
             get { return this.GetEnvVar(nameof(BatchFileLocation)); }
         }
 
-        public string? gitRepos
+        public string gitRepos
         {
             get { return this.GetEnvVar(nameof(gitRepos)); }
         }
 
-        public string? LicenseFile
+        public string LicenseFile
         {
             get { return this.GetEnvVar(nameof(LicenseFile)); }
         }
 
-        public string? MaestroSnap
+        public string MaestroSnap
         {
             get { return this.GetEnvVar(nameof(MaestroSnap)); }
         }
 
-        public string? MaestroSvc
+        public string MaestroSvc
         {
             get { return this.GetEnvVar(nameof(MaestroSvc)); }
         }
 
-        public string? PathToUtilitiesExe
+        public string PathToUtilitiesExe
         {
             get { return this.GetEnvVar(nameof(PathToUtilitiesExe)); }
         }
 
-        public string? ScriptsFolder
+        public string ScriptsFolder
         {
             get { return this.GetEnvVar(nameof(ScriptsFolder)); }
         }
 
-        public string? ServicesPublishPath
+        public string ServicesPublishPath
         {
             get { return this.GetEnvVar(nameof(ServicesPublishPath)); }
         }
 
-        public string? TfsGetPlatformSource
+        public string TfsGetPlatformSource
         {
             get { return this.GetEnvVar(nameof(TfsGetPlatformSource)); }
         }
 
-        public string? TfsProto
+        public string TfsProto
         {
             get { return this.GetEnvVar(nameof(TfsProto)); }
         }
 
-        public string? TfsSdk
+        public string TfsSdk
         {
             get { return this.GetEnvVar(nameof(TfsSdk)); }
         }
 
-        public string? TfsSrc
+        public string TfsSrc
         {
             get { return this.GetEnvVar(nameof(TfsSrc)); }
         }
 
-        public string? UtilPath
+        public string UtilPath
         {
             get { return this.GetEnvVar(nameof(UtilPath)); }
         }
