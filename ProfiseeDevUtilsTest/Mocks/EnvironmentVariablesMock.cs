@@ -16,8 +16,11 @@ namespace ProfiseeDevUtilsTest.Mocks
 
         public override async Task SetEnvironmentVariable(string variable, string value, ProgressTask task)
         {
-            Environment.SetEnvironmentVariable(variable, value);
-            this.envVars[variable] = value;
+            await Task.Run(() =>
+            {
+                Environment.SetEnvironmentVariable(variable, value);
+                this.envVars[variable] = value;
+            });
         }
         internal Dictionary<string, string> GetEnvironmentVariables()
         {

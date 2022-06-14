@@ -8,7 +8,6 @@ using static ProfiseeDevUtils.Build.BuildContext;
 Console.WriteLine("Hello, World!");
 
 Utils utils = new Utils();
-string root = @"C:\DevOps\Repos\platform\ProfiseePlatform.sln";
 
 //var getProj = utils.GetFilesByType(@"C:\DevOps\Repos", "csproj");
 //var getSln = utils.GetFilesByType(@"C:\DevOps\Repos", "sln");

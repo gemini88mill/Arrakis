@@ -8,10 +8,10 @@ namespace ProfiseeDevUtils
 {
     public class BuildContexts
     {
-        public string ProjectName { get; set; }
-        public string ProjectPath { get; set; }
-        public string ProjectFileExtension { get; set; }
-        public string ProjectRepoPath { get; set; }
+        public string? ProjectName { get; set; }
+        public string? ProjectPath { get; set; }
+        public string? ProjectFileExtension { get; set; }
+        public string? ProjectRepoPath { get; set; }
 
     }
 }

@@ -39,7 +39,7 @@ namespace ProfiseeDevUtils.Build
             solutionFullPath = context.Argument("slnPath", @$"{this.EnvVars.gitRepos}\rest-api\Gateway.Api.sln");
             fileInfo = new FileInfo(solutionFullPath);
 
-            rootPath = fileInfo.DirectoryName;
+            rootPath = fileInfo.DirectoryName ?? string.Empty;
 
             MsBuildConfiguration = context.Argument("configuration", "Debug");
             LogLevel = context.Argument("LogLevel", Verbosity.Normal);

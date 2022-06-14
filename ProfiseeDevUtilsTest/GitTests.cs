@@ -9,8 +9,8 @@ namespace ProfiseeDevUtilsTest
 {
     internal class GitTests
     {
-        private Git gitMock;
-        private ILogger logger;
+        private Git gitMock = new Git();
+        private ILogger logger = new Logger(false);
         private string gitUrl = $"https://profisee.visualstudio.com/Products/_git/";
 
         [SetUp]

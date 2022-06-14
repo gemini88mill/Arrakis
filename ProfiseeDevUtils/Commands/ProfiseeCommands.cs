@@ -164,7 +164,7 @@ namespace ProfiseeDevUtils.Commands
             {
                 await AnsiConsole.Status()
                     .StartAsync("Fetching Project", ctx => {
-                        repo = utils.GetFolderByFileName(root, name);
+                        repo = utils.GetFolderByFileName(root, name) ?? string.Empty;
                         return Task.CompletedTask;
                     });
             }

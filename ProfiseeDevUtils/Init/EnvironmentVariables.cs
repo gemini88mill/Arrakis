@@ -112,7 +112,7 @@ namespace ProfiseeDevUtils.Init
                     }) : null;
                     await Task.WhenAll(this.envVars.Select(async (envVar, i) =>
                     {
-                        var task = this.quiet ? singleTask : ctx.AddTask($"Set {envVar.Key} to {envVar.Value}", new ProgressTaskSettings
+                        var task = singleTask ?? ctx.AddTask($"Set {envVar.Key} to {envVar.Value}", new ProgressTaskSettings
                         {
                             AutoStart = true,
                             MaxValue = 2
