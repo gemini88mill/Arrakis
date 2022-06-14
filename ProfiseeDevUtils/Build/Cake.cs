@@ -9,6 +9,7 @@ using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Git;
+using ProfiseeDevUtils.Infrastructure;
 using ProfiseeDevUtils.Init;
 using Spectre.Console;
 
@@ -146,13 +147,13 @@ namespace ProfiseeDevUtils.Build
             public override void Setup(BuildContext context)
             {
                 context.DiagnosticVerbosity();
-                new Utils().TurnOffService("W3SVC");
-                new Utils().TurnOnService("W3SVC");
                 new Utils().TurnOffService(context.EnvVars.MaestroSvc);
+                new IIS().Stop();
             }
 
             public override void Teardown(BuildContext context, ITeardownContext info)
             {
+                new IIS().Start();
                 new Utils().TurnOnService(context.EnvVars.MaestroSvc);
 
             }
