@@ -50,6 +50,7 @@ namespace ProfiseeDevUtils.Init
             { nameof(RunAsUserName), ""},
             { nameof(ServerRESTVersion), "v1"},
             { nameof(ServerRESTUrl), "http://127.0.0.1/profisee/rest"},
+            { nameof(AdminAccount), ""},
         };
 
         public ILogger Logger { get; set; }
@@ -71,7 +72,11 @@ namespace ProfiseeDevUtils.Init
 
             this.Logger.Inform($"Creating custom vars file at {customVarsFilePath}");
             Directory.CreateDirectory(this.getCustomVarsFileDirectory());
-            var machineVars = new { ServerRESTUrl = $"https://{Environment.MachineName}.corp.profisee.com/Profisee/rest/" };
+            var machineVars = new
+            {
+                AdminAccount = @$"{Environment.UserDomainName}\{Environment.UserName}",
+                ServerRESTUrl = $"https://{Environment.MachineName}.corp.profisee.com/Profisee/rest/",
+            };
             string json = JsonConvert.SerializeObject(machineVars, Formatting.Indented);
             File.WriteAllText(customVarsFilePath, json);
         }
@@ -189,6 +194,11 @@ namespace ProfiseeDevUtils.Init
         {
             string projectSourcePath = ProjectSourcePath.Value;
             return Path.Combine(projectSourcePath, "local");
+        }
+
+        public string AdminAccount
+        {
+            get { return this.GetEnvVar(nameof(AdminAccount)); }
         }
 
         public string AttachmentRepositoryLocation
