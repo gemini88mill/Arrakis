@@ -13,32 +13,6 @@ namespace ProfiseeDevUtils.Build
              this.Logger = new Logger(quiet);
         }
 
-        public void TurnOnService(string name)
-        {
-            ServiceController service = new ServiceController(name);
-            if(service.Status == ServiceControllerStatus.Running)
-            {
-                this.Logger.Inform("Service is already started");
-                return;
-            }
-            service.Start();
-            service.WaitForStatus(ServiceControllerStatus.Running);
-            this.Logger.Inform("Service has successfully started");
-        }
-
-        public void TurnOffService(string name)
-        {
-            ServiceController service = new ServiceController(name);
-            if (service.Status == ServiceControllerStatus.Stopped)
-            {
-                this.Logger.Inform("Service is already stopped");
-                return;
-            }
-            service.Stop();
-            service.WaitForStatus(ServiceControllerStatus.Stopped);
-            this.Logger.Inform("Service has successfully stopped");
-        }
-
         public string[] GetFilesByType(string root, string type)
         {
             return Directory.GetFiles(root, $"*.{type}", SearchOption.AllDirectories);
@@ -63,16 +37,5 @@ namespace ProfiseeDevUtils.Build
 
             return slns;
         }
-
-        public void IISStart()
-        {
-            Process.Start("iisstart.bat");
-        }
-
-        public void IISStop()
-        {
-            Process.Start("iisstop.bat");
-        }
-
     }
 }
