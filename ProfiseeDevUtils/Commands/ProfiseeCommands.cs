@@ -1,20 +1,17 @@
 ﻿using Cake.Frosting;
 using ProfiseeDevUtils.Build;
+using ProfiseeDevUtils.Infrastructure;
 using ProfiseeDevUtils.Init;
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static ProfiseeDevUtils.Build.BuildContext;
 
 namespace ProfiseeDevUtils.Commands
 {
     public class ProfiseeCommands
     {
+        public ILogger Logger { get; set; } = new Logger(false);
 
         public Command build = new Command("build", "builds the various projects of the Profisee Platform")
         {
@@ -50,6 +47,11 @@ namespace ProfiseeDevUtils.Commands
             new Option<string>(new[] { "-b", "--branch" }, "branch to perform git operation on"),
         };
 
+        public Command iis = new Command("iis", "Perform IIS operations")
+        {
+            new Argument<string>("action", "type of action (start, stop, reset")
+        };
+
         public ProfiseeCommands()
         {
             build.Handler = CommandHandler.Create<string?, /*string?, string?, string?,*/ bool?, bool?, bool?, IConsole>(HandleBuildAsync);
@@ -57,6 +59,30 @@ namespace ProfiseeDevUtils.Commands
             envVars.Handler = CommandHandler.Create<bool?, IConsole>(HandleEnvVars);
             init.Handler = CommandHandler.Create<bool?, IConsole>(HandleInit);
             git.Handler = CommandHandler.Create<string, string, string, IConsole>(HandleGit);
+            iis.Handler = CommandHandler.Create<string, IConsole>(HandleIIS);
+        }
+
+        private void HandleIIS(string action, IConsole console)
+        {
+            var sanitizedAction = action.ToLower();
+            var iis = new IIS();
+            var actions = new Dictionary<string, Action>
+            {
+                { "start", iis.Start },
+                { "stop", iis.Stop },
+                { "reset", iis.Reset },
+            };
+            if (!actions.ContainsKey(sanitizedAction))
+            {
+                this.Logger.Err($"Action {action} not found in available actions. Please use one of the following:");
+                foreach(var a in actions.Keys)
+                {
+                    this.Logger.Err(a);
+                }
+                return;
+            }
+
+            actions[sanitizedAction]();
         }
 
         private void HandleGit(string action, string repo, string branch, IConsole console)

@@ -35,7 +35,8 @@ var cmd = new RootCommand
     profCommands.config,
     profCommands.envVars,
     profCommands.init,
-    profCommands.git
+    profCommands.git,
+    profCommands.iis,
 };
 
 return cmd.Invoke(args);
