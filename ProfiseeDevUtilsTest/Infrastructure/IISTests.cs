@@ -1,31 +1,16 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using ProfiseeDevUtils.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProfiseeDevUtilsTest.Infrastructure
 {
     internal class IISTests
     {
-        private ILogger logger;
-
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void IIS_Start()
         {
-            this.logger = Substitute.For<ILogger>();
-        }
-
-        [TestCase(true)]
-        [TestCase(false)]
-        public void IIS_Start(bool quiet)
-        {
-            var iis = Substitute.For<IIS>(quiet);
-            iis.Logger = this.logger;
+            var iis = Substitute.For<IIS>();
 
             iis.Start();
 
@@ -34,12 +19,10 @@ namespace ProfiseeDevUtilsTest.Infrastructure
                 p.Arguments == "/start"));
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void IIS_Stop(bool quiet)
+        [Test]
+        public void IIS_Stop()
         {
-            var iis = Substitute.For<IIS>(quiet);
-            iis.Logger = this.logger;
+            var iis = Substitute.For<IIS>();
 
             iis.Stop();
 
@@ -48,15 +31,16 @@ namespace ProfiseeDevUtilsTest.Infrastructure
                 p.Arguments == "/stop"));
         }
 
-
-
-        [TestCase(true)]
-        [TestCase(false)]
-        public void IIS_Logger(bool quiet)
+        [Test]
+        public void IIS_Reset()
         {
-            var iis = Substitute.For<IIS>(quiet);
-            
-            Assert.AreEqual(quiet, iis.Logger.Quiet);
+            var iis = Substitute.For<IIS>();
+
+            iis.Reset();
+
+            iis.Received(1).StartProcess(Arg.Is<ProcessStartInfo>(p =>
+                p.FileName == "iisreset" &&
+                p.Arguments == string.Empty));
         }
     }
 }
