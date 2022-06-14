@@ -9,6 +9,7 @@ namespace ProfiseeDevUtils.Infrastructure
 {
     internal class Database
     {
+        private string sqlServer;
         private string connectionString;
         public ILogger Logger { get; set; }
 
@@ -22,6 +23,7 @@ namespace ProfiseeDevUtils.Infrastructure
             )
         {
             this.Logger = new Logger(quiet);
+            this.sqlServer = sqlServer;
             var builder = new SqlConnectionStringBuilder();
             builder.DataSource = sqlServer;
             builder.PersistSecurityInfo = true;
@@ -52,7 +54,7 @@ namespace ProfiseeDevUtils.Infrastructure
                 DROP DATABASE [{dbName}]
             END
                      ";
-            this.Logger.Inform($"Dropping database {dbName}");
+            this.Logger.Inform($"Dropping database {dbName} from {this.sqlServer}");
             executeSqlCommand(commandSql);
             this.Logger.Inform($"Database {dbName} deleted");
         }
