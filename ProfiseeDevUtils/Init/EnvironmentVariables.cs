@@ -304,14 +304,24 @@ namespace ProfiseeDevUtils.Init
             get { return this.GetEnvVar(nameof(UseHttps)); }
         }
 
-        public string UseSeparateDatabases
+        public bool UseSeparateDatabases
         {
-            get { return this.GetEnvVar(nameof(UseSeparateDatabases)); }
+            get
+            {
+                bool retVal;
+                bool.TryParse(this.GetEnvVar(nameof(UseSeparateDatabases)), out retVal);
+                return retVal;
+            }
         }
 
-        public string UseWindowsAuthentication
+        public bool UseWindowsAuthentication
         {
-            get { return this.GetEnvVar(nameof(UseWindowsAuthentication)); }
+            get 
+            {
+                bool retVal;
+                bool.TryParse(this.GetEnvVar(nameof(UseWindowsAuthentication)), out retVal);
+                return retVal;
+            }
         }
 
         public string WebSiteName

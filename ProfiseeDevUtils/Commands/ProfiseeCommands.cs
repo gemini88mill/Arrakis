@@ -58,6 +58,13 @@ namespace ProfiseeDevUtils.Commands
             new Option<bool?>( new[] { "-q", "--quiet" }, "Only output minimal info" ),
         };
 
+        public Command dropDb = new Command("dropDb", "Drop Profisee database(s)")
+        {
+            new Option<string>(new[] { "-s", "--sql" }, "sql server to perform operation on"),
+            new Option<string>(new[] { "-d", "--database" }, "sql database to drop"),
+            new Option<bool?>( new[] { "-q", "--quiet" }, "Only output minimal info" ),
+        };
+
         public ProfiseeCommands()
         {
             build.Handler = CommandHandler.Create<string?, /*string?, string?, string?,*/ bool?, bool?, bool?, IConsole>(HandleBuildAsync);
@@ -67,6 +74,7 @@ namespace ProfiseeDevUtils.Commands
             git.Handler = CommandHandler.Create<string, string, string, IConsole>(HandleGit);
             iis.Handler = CommandHandler.Create<string, IConsole>(HandleIIS);
             profisee.Handler = CommandHandler.Create<string, bool?>(Profisee.Service.Act);
+            dropDb.Handler = CommandHandler.Create<string?, string?, bool?>(Database.DropDB.Act);
         }
 
         private void HandleIIS(string action, IConsole console)

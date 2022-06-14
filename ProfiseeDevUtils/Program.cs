@@ -37,6 +37,7 @@ var cmd = new RootCommand
     profCommands.git,
     profCommands.iis,
     profCommands.profisee,
+    profCommands.dropDb,
 };
 
 return cmd.Invoke(args);
